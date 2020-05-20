@@ -1,0 +1,12 @@
+
+Thank you for installing Palo Alto Networks CN-Series firewall!
+
+Your release is named {{ .Release.Name }}
+
+Helm repo can be found at https://github.com/PaloAltoNetworks/cn-series-helm
+
+To learn more about the release, try:
+
+  $ helm list
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}

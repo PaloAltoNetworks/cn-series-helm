@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pan-mgmt-config
+  namespace: kube-system
+data:
+  PAN_SERVICE_NAME: {{ .Values.firewall.serviceName | quote }}
+  PAN_MGMT_SECRET: pan-mgmt-secret
+  # Panorama settings
+  PAN_PANORAMA_IP: {{ .Values.panorama.ip | quote }}
+  PAN_DEVICE_GROUP: {{ .Values.panorama.deviceGroup | quote }}
+  PAN_TEMPLATE: {{ .Values.panorama.template | quote }}
+  PAN_PANORAMA_CGNAME: {{ .Values.panorama.cgName | quote }}
+#Non-mandatory parameters
+#PAN_PANORAMA_CGNAME: ""
+#PAN_PANORAMA_IP2: ""
+

@@ -1,0 +1,109 @@
+# Default values for cn-series.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+firewall:
+ operationMode: daemonset
+ serviceName: pan-mgmt-svc
+ failoverMode: failopen
+
+panorama:
+  ip: 34.68.228.203
+  authKey: 00000000000
+  deviceGroup: dev-dg
+  template: k8s-stack
+  cgName: rp-cg1
+
+mp:
+ initImage:  gcr.io/paloaltonetworksgcp-public/pan-mgmt-init
+ initVersion: 1.0.0-b3
+ image: gcr.io/paloaltonetworksgcp-public/paloaltonetworks/panos_cn_mgmt
+ version: 30
+ cpu: 4
+ mem: 4.0Gi
+
+dp:
+ image: gcr.io/paloaltonetworksgcp-public/paloaltonetworks/panos_cn_ngfw
+ version: 9.2.0-b30
+ cpu: 1
+ mem: 2.25Gi
+
+cni:
+ image: gcr.io/paloaltonetworksgcp-public/pan-cni
+ version: 1.0.0-b3
+ confName: 10-calico.conflist
+ binDir: /home/kubernetes/bin
+
+ ## For EKS, uncomment the following
+ #confName: 10-aws.conflist
+ #binDir: /host/opt/cni/bin
+
+ ## For AKS, uncomment the following
+ #confName: 10-azure.conflist
+ #binDir: /host/opt/cni/bin
+
+ ## For minikube, uncomment the following
+ #confName: k8s.conflist
+ #binDir: /opt/cni/bin
+ 
+############
+# Non essential configs
+############
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# service:
+#   type: ClusterIP
+#   port: 80
+
+# ingress:
+#   enabled: false
+#   annotations: {}
+#     # kubernetes.io/ingress.class: nginx
+#     # kubernetes.io/tls-acme: "true"
+#   hosts:
+#     - host: chart-example.local
+#       paths: []
+#   tls: []
+#   #  - secretName: chart-example-tls
+#   #    hosts:
+#   #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

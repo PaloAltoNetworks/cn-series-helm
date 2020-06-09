@@ -117,11 +117,11 @@ spec:
           resources:
             requests:
               # configurable based on desired logging, capacities
-              cpu: "{{ .Values.mp.cpu }}"
-              memory: "{{ .Values.mp.mem }}"
+              cpu: "2"
+              memory: "2.0Gi"
             limits:
-              cpu: "{{ .Values.mp.cpu }}"
-              memory: "{{ .Values.mp.mem }}"
+              cpu: "{{ .Values.mp.cpuLimit }}"
+              memory: "4.0Gi"
           volumeMounts:
           - name: panlogs
             mountPath: /opt/panlogs/
@@ -137,9 +137,6 @@ spec:
             mountPath: /opt/pancfg/mgmt/plugins/
           - name: panplugincfg
             mountPath: /opt/plugins/opt/pancfg/mgmt/plugins/
-          - name: devnettun
-            mountPath: /dev/net/tun
-            readOnly: false
           - mountPath: /dev/shm
             name: dshm
           envFrom:
@@ -170,13 +167,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
-          # to bypass encrypted connection to etcd due to EKS bug. No value needed
-          #- name: ETCD_CERT_BYPASS
  
       volumes:
-      - name: devnettun
-        hostPath:
-          path: /dev/net/tun
       - name: dshm
         emptyDir:
           medium: Memory

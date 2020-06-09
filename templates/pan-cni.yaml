@@ -48,7 +48,7 @@ spec:
         # This container installs the pan CNI binaries
         # and CNI network config file on each node.
         - name: install-pan-cni
-          image: "{{ .Values.cni.image }}:{{ .Values.cni.version }}" 
+          image: "{{ .Values.cni.image }}:{{ .Values.cni.version }}"
           imagePullPolicy: Always
           command: ["/install-pan-cni.sh", "main"]
           lifecycle:
@@ -67,7 +67,7 @@ spec:
             # This is optional. We always wait until this configured (if
             # configured) or any cni conf file is detected.
             - name: CNI_CONF_NAME
-              value: "{{ .Values.cni.confName }}" 
+              value: "{{ .Values.cni.confName }}"
             # This is optional. After pan-cni insertion, delay for it to be
             # picked up/propogated before makring pan-cni-ready (default 30 seconds)
             #- name: CNI_READY_DELAY
@@ -83,7 +83,7 @@ spec:
         # Used to install CNI.
         - name: cni-bin-dir
           hostPath:
-            path: "{{ .Values.cni.binDir }}" 
+            path: "{{ .Values.cni.binDir }}"
         - name: cni-net-dir
           hostPath:
             path: /etc/cni/net.d

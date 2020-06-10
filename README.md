@@ -21,10 +21,19 @@ This repo is for deploying the CN-series containerized firewall using the [Helm 
 2. Add the cn-series repo to your local Helm client
 
 ```
-$ helm repo add cn-series https://paloaltonetworks.github.io/cn-series-helm
+$ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
+"cn-series" has been added to your repositories
 ```
 
-3. Deploy using the Helm chart repo
+3. Confirm the repo has been added to your Helm client
+
+```
+$ helm search repo cn-series
+NAME               	CHART VERSION	APP VERSION	DESCRIPTION
+cn-series/cn-series	0.1.1        	9.2.0      	Palo Alto Networks CN-Series firewall Helm char...
+```
+
+4. Deploy using the Helm chart repo
 
 ```
 $ helm install cn-series/cn-series --name=my-deployment \
@@ -52,4 +61,18 @@ Use the following table to determine the `cni.confName` and `cni.binDir` paramet
 
 ## Support
 
-This template/solution is released under an as-is, best effort, support policy as part of the Beta Program. These scripts should be seen as community supported and Palo Alto Networks will contribute our expertise as and when possible. We do not provide technical support or help in using or troubleshooting the components of the project through our normal support options such as Palo Alto Networks support teams, or ASC (Authorized Support Centers) partners and backline support options. The underlying product used (the CM-Series firewall) by the scripts or templates are still supported, but the support is only for the product functionality and not for help in deploying or using the template or script itself. Unless explicitly tagged, all projects or work posted in our GitHub repository (at https://github.com/PaloAltoNetworks) or sites other than our official Downloads page on https://support.paloaltonetworks.com are provided under the best effort policy.
+This template/solution is released under an as-is, best effort, support
+policy. These scripts should be seen as community supported and Palo
+Alto Networks will contribute our expertise as and when possible. We do
+not provide technical support or help in using or troubleshooting the
+components of the project through our normal support options such as
+Palo Alto Networks support teams, or ASC (Authorized Support Centers)
+partners and backline support options. The underlying product used (the
+VM-Series firewall) by the scripts or templates are still supported, but
+the support is only for the product functionality and not for help in
+deploying or using the template or script itself.
+
+Unless explicitly tagged, all projects or work posted in our GitHub
+repository (at <https://github.com/PaloAltoNetworks>) or sites other
+than our official Downloads page on <https://support.paloaltonetworks.com>
+are provided under the best effort policy.

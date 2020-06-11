@@ -1,26 +1,91 @@
 # CN-Series Helm Chart ⛵⎈ 
 
-This repo is for deploying the CN-series containerized firewall using the [Helm Package Manager for Kubernetes](https://helm.sh)
+This repository contains charts and templates for deploying the Palo Alto Networks CN-series containerized firewall using the [Helm Package Manager for Kubernetes](https://helm.sh)
 
-## Prerequisites
+## Minimum requirements
 
+* CN-Series
+  * CN-Series 10.0.0 container images
 * Panorama
-  * Panorama 9.2.0 or greater
-  * Kubernetes plugin for Panorama version 1.0.0 or greater
-  * [Panorama is accessible from the Kubernetes cluster](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html)
+  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.0.0
+  * Kubernetes plugin for Panorama version 1.0.0
+  * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.14 cluster
-  * A working kubeconfig file
+  * Kubernetes 1.13 or 1.14 cluster
+  * A current kubeconfig file
 * Helm
-  * [Helm version 3](https://helm.sh/docs/intro/install/)
+  * [Helm 3](https://helm.sh/docs/intro/install/) client
 
 ## Usage
+
+### Method 1 - With Repo
+
+1. [Generate the VM authorization key on Panorama](https://docs.paloaltonetworks.com/vm-series/9-1/vm-series-deployment/bootstrap-the-vm-series-firewall/generate-the-vm-auth-key-on-panorama.html)
+
+2. Clone the repository from GitHub
+
+```bash
+$ git clone https://github.com/PaloAltoNetworks/cn-series-helm.git
+```
+
+3. Change into the repo directory
+
+```bash
+$ cd cn-series-helm
+```
+
+4. Edit the `values.yaml` file and plug in your specific configs
+
+```yaml
+# The K8s environment 
+# Valid deployTo tags are: [gke|eks|aks|openshift]
+cluster:
+  deployTo: gke
+
+# Firewall tags
+# Valid licenceBundle tags are: [basic|bundle1|bundle2]
+firewall:
+ operationMode: daemonset
+ failoverMode: failopen
+ licenseBundle: bundle2
+
+# Panorama tags
+panorama:
+  ip: panorama.acmewidgets.com
+  ip2: 
+  authKey: "000000000000000"
+  deviceGroup: my-devicegroup
+  template: my-stack
+  cgName: my-collector
+
+# MP container tags
+mp:
+ initImage:  docker.io/acmewidgets/pan_cn_mgmt_init
+ initVersion: 1.0.0
+ image: docker.io/acmewidgets/panos_cn_mgmt
+ version: 10.0.0
+ cpuLimit: 4
+
+# DP container tags
+dp:
+ image: docker.io/acmewidgets/panos_cn_ngfw
+ version: 10.0.0
+ cpuLimit: 2
+
+# CNI container tags
+cni:
+ image: docker.io/acmewidgets/pan_cni
+ version: 1.0.0
+ ```
+
+
+### Method 2 - Without Repo 
 
 1. [Generate the VM authorization key on Panorama](https://docs.paloaltonetworks.com/vm-series/9-1/vm-series-deployment/bootstrap-the-vm-series-firewall/generate-the-vm-auth-key-on-panorama.html)
 
 2. Add the cn-series repo to your local Helm client
 
-```
+```bash
 $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 "cn-series" has been added to your repositories
 ```
@@ -30,34 +95,37 @@ $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 ```
 $ helm search repo cn-series
 NAME               	CHART VERSION	APP VERSION	DESCRIPTION
-cn-series/cn-series	0.1.1        	9.2.0      	Palo Alto Networks CN-Series firewall Helm char...
+cn-series/cn-series	0.1.2        	9.2.0      	Palo Alto Networks CN-Series firewall Helm char...
 ```
 
-4. Deploy using the Helm chart repo
+4. Select the Kubernetes cluster
 
+```bash
+$ kubectl config set-cluster NAME
 ```
-$ helm install cn-series/cn-series --name=my-deployment \
---set panorama.ip="<panorama hostname>" \
---set-string panorama.authKey="<vm auth key>" \
---set panorama.deviceGroup="<device group>" \
---set panorama.template="<template stack>" \
---set panorama.cgName="<collector group>" \
---set cni.confName="<cni name>" \
---set cni.binDir="<bin directory>"
+
+5. Deploy using the Helm chart repo
+
+```bash
+$ helm install cn-series/cn-series --name="deployment name" \
+--set cluster.deployTo="gke|eks|aks|openshift"
+--set panorama.ip="panorama hostname or ip" \
+--set panorama.ip2="panorama2 hostname or ip" \
+--set-string panorama.authKey="vm auth key" \
+--set panorama.deviceGroup="device group" \
+--set panorama.template="template stack" \
+--set panorama.cgName="collector group" \
+--set cni.image="container repo" \
+--set cni.version="container version" \
+--set mp.initImage="container repo" \
+--set mp.initVersion="container version" \
+--set mp.image="container repo" \
+--set mp.version="container version" \
+--set mp.cpuLimit="cpu max" \
+--set dp.image="container repo" \
+--set dp.version="container version" \
+--set dp.cpuLimit="cpu max"
 ```
-Use the following table to determine the `cni.confName` and `cni.binDir` parameters.
-
-| Param     | Value                | Environment|
-|-----------|----------------------|------------|
-| confName  | 10-calico.conflist   | GKE        |
-| binDir    | /home/kubernetes/bin | GKE        |
-| confName  | 10-aws.conflist      | EKS        |
-| binDir    | /opt/cni/bin         | EKS        |
-| confName  | 10-azure.conflist    | AKS        |
-| binDir    | /host/opt/cni/bin    | AKS        |
-| confName  | k8s.conflist         | minikube   |
-| binDir    | /opt/cni/bin         | minikube   |
-
 
 ## Support
 

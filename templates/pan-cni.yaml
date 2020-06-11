@@ -63,11 +63,30 @@ spec:
                 configMapKeyRef:
                   name: pan-cni-config
                   key: cni_network_config
+            {{- if ne .Values.cluster.deployTo "openshift" }}
             # Name of the primary CNI config file to add our CNI plugin.
             # This is optional. We always wait until this configured (if
             # configured) or any cni conf file is detected.
+            {{- else }}
+            # Name of the CNI config file for our CNI plugin.
+            {{- end }}
             - name: CNI_CONF_NAME
-              value: "{{ .Values.cni.confName }}"
+            {{- if eq .Values.cluster.deployTo "gke" }}
+              value: "10-calico.conflist"
+            {{- else if eq .Values.cluster.deployTo "eks" }}
+              value: "10-aws.conflist"
+            {{- else if eq .Values.cluster.deployTo "aks" }}
+              value: "10-azure.conflist"
+            {{- else if eq .Values.cluster.deployTo "openshift" }}
+              value: "pan-cni.conf"
+            # Name of the directory for CNI config file for our CNI plugin.
+            - name: CNI_NET_DIR
+              value: "/etc/cni/multus/net.d"
+            # Whether to deploy the configuration file as a plugin chain or as 
+            # a standalone file (for multus) in cni-conf-dir
+            - name: CHAINED_CNI_PLUGIN
+              value: "false"
+            {{- end }}
             # This is optional. After pan-cni insertion, delay for it to be
             # picked up/propogated before makring pan-cni-ready (default 30 seconds)
             #- name: CNI_READY_DELAY
@@ -83,10 +102,20 @@ spec:
         # Used to install CNI.
         - name: cni-bin-dir
           hostPath:
-            path: "{{ .Values.cni.binDir }}"
+            {{- if eq .Values.cluster.deployTo "gke" }}
+            path: /home/kubernetes/bin
+            {{- else if eq .Values.cluster.deployTo "openshift" }}
+            path: /var/lib/cni/bin
+            {{- else }}
+            path: /opt/cni/bin
+            {{- end }}
         - name: cni-net-dir
           hostPath:
+            {{- if eq .Values.cluster.deployTo "openshift" }}
+            path: /etc/cni/multus/net.d
+            {{- else }}
             path: /etc/cni/net.d
+            {{- end }}
         - name: appinfo
           hostPath:
             # app pod info's directory location on host

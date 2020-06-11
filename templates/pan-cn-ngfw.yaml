@@ -1,3 +1,13 @@
+{{- if eq .Values.cluster.deployTo "openshift" }}
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: pan-cni
+  # Defining it in kube-system for pan-ngfw-ds. 
+  # Do this for each namespace where app pod can be run
+  namespace: kube-system
+---
+{{- end }}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -30,6 +40,15 @@ spec:
           # After k8s plugin change, change this to following to avoid confusion:
           #     paloaltonetworks.com/app: pan-ngfw-app
           paloaltonetworks.com/app: pan-fw
+          {{- if eq .Values.cluster.deployTo "openshift" }}
+
+          # This annotation enables pan-cni CNI plugin for this pod
+          # This needs to be done after NetworkAttachmentDefinition pan-cni
+          # (pan-cni-net-attach-def.yaml) has been deployed in the same
+          # namespace as this pod.
+          # These 2 steps are needed for app pod and their namespace as well.
+          k8s.v1.cni.cncf.io/networks: pan-cni
+          {{- end }}
     spec:
       serviceAccountName: pan-sa
       priorityClassName: system-cluster-critical
@@ -71,6 +90,10 @@ spec:
           securityContext:
             capabilities:
               add: ["ALL"]
+            {{- if eq .Values.cluster.deployTo "openshift" }}
+            privileged: true
+            runAsNonRoot: false
+            {{- end }}
           resources:
             requests:
               # configurable based on desired throughput, number of running pods
@@ -151,11 +174,13 @@ spec:
           # "appinfo_dir" configmap and pan-ngfw-ds's part of "pan-cni-ready" volume
           path: /var/log/pan-appinfo
           type: Directory
+      {{- if ne .Values.cluster.deployTo "openshift" }}
       - name: pan-cni-ready
         hostPath:
           # block pan-ngfw-ds scheduling till PAN CNI plugin insertion on the node
           path: /var/log/pan-appinfo/pan-cni-ready
           type: Directory
+      {{- end }}
       - name: sw-secret
         secret:
           # Don't change this. Needs to match PAN_DP_NAME in pan-cn-mgmt.yaml

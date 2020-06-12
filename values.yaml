@@ -2,50 +2,47 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# The K8s environment 
+# Valid deployTo tags are: [gke|eks|aks|openshift]
+cluster:
+  deployTo: 
+
+# Firewall tags
+# Valid licenceBundle tags are: [basic|bundle1|bundle2]
 firewall:
  operationMode: daemonset
- serviceName: pan-mgmt-svc
  failoverMode: failopen
+ licenseBundle: bundle2
 
+# Panorama tags
 panorama:
-  ip: 34.68.228.203
-  authKey: 00000000000
-  deviceGroup: dev-dg
-  template: k8s-stack
-  cgName: rp-cg1
+  ip: 
+  ip2: 
+  authKey: ""
+  deviceGroup: 
+  template: 
+  cgName: 
 
+# MP container tags
 mp:
- initImage:  gcr.io/paloaltonetworksgcp-public/pan-mgmt-init
- initVersion: 1.0.0-b3
- image: gcr.io/paloaltonetworksgcp-public/paloaltonetworks/panos_cn_mgmt
- version: 30
- cpu: 4
- mem: 4.0Gi
+ initImage:  
+ initVersion: 
+ image: 
+ version: 
+ cpuLimit: 4
 
+# DP container tags
 dp:
- image: gcr.io/paloaltonetworksgcp-public/paloaltonetworks/panos_cn_ngfw
- version: 9.2.0-b30
- cpu: 1
- mem: 2.25Gi
+ image: 
+ version: 
+ cpuLimit: 2
 
+# CNI container tags
 cni:
- image: gcr.io/paloaltonetworksgcp-public/pan-cni
- version: 1.0.0-b3
- confName: 10-calico.conflist
- binDir: /home/kubernetes/bin
+ image: 
+ version: 
 
- ## For EKS, uncomment the following
- #confName: 10-aws.conflist
- #binDir: /host/opt/cni/bin
 
- ## For AKS, uncomment the following
- #confName: 10-azure.conflist
- #binDir: /host/opt/cni/bin
-
- ## For minikube, uncomment the following
- #confName: k8s.conflist
- #binDir: /opt/cni/bin
- 
 ############
 # Non essential configs
 ############

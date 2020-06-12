@@ -33,15 +33,24 @@ data:
   #        }
   cni_network_config: |-
         {
+          {{- if eq .Values.cluster.deployTo "openshift" }}
+          "cniVersion": "0.3.0",
+          {{- end }}
           "name": "pan-cni",
           "type": "pan-cni",
           "log_level": "debug",
           "appinfo_dir": "/var/log/pan-appinfo",
-          "mode": "{{ .Values.firewall.operationMode }}" ,
+          "mode": "daemonset",
           "firewall": [ "pan-fw" ],
           "kubernetes": {
               "kubeconfig": "__KUBECONFIG_FILEPATH__",
-              "cni_bin_dir": "{{ .Values.cni.binDir }}" ,
+              {{- if eq .Values.cluster.deployTo "gke" }}
+              "cni_bin_dir": "/home/kubernetes/bin",
+              {{- else if eq .Values.cluster.deployTo "openshift" }}
+              "cni_bin_dir": "/var/lib/cni/bin",
+              {{- else }}
+              "cni_bin_dir": "/opt/cni/bin",
+              {{- end }}
               "exclude_namespaces": [ ],
               "security_namespaces": [ "kube-system"]
           }

@@ -25,22 +25,22 @@ panorama:
 
 # MP container tags
 mp:
- initImage:  
- initVersion: 
- image: 
- version: 
+ initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
+ initVersion: 1.0.0-b6
+ image: docker.io/paloaltonetworks/panos_cn_mgmt
+ version: 10.0.0-b61
  cpuLimit: 4
 
 # DP container tags
 dp:
- image: 
- version: 
+ image: docker.io/paloaltonetworks/panos_cn_ngfw
+ version: 10.0.0-b61
  cpuLimit: 2
 
 # CNI container tags
 cni:
- image: 
- version: 
+ image: docker.io/paloaltonetworks/pan_cni
+ version: 1.0.0-b6
 
 
 ############

@@ -40,7 +40,7 @@ spec:
         - effect: NoExecute
           operator: Exists
       priorityClassName: system-node-critical
-      serviceAccountName: pan-sa
+      serviceAccountName: pan-cni-sa
       # Minimize downtime during a rolling upgrade or deletion; tell Kubernetes to do a "force
       # deletion": https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods.
       terminationGracePeriodSeconds: 5
@@ -66,17 +66,22 @@ spec:
             {{- if ne .Values.cluster.deployTo "openshift" }}
             # Name of the primary CNI config file to add our CNI plugin.
             # This is optional. We always wait until this configured (if
-            # configured) or any cni conf file is detected.
+            # configured) or any cni conf file is detected. If configured
+            # pan-cni will wait until configured CNI conf becomes primary
+            #- name: CNI_CONF_NAME
             {{- else }}
             # Name of the CNI config file for our CNI plugin.
-            {{- end }}
             - name: CNI_CONF_NAME
+            {{- end }}
             {{- if eq .Values.cluster.deployTo "gke" }}
-              value: "10-calico.conflist"
+            #  value: "10-calico.conflist"
+            # 
             {{- else if eq .Values.cluster.deployTo "eks" }}
-              value: "10-aws.conflist"
+            #  value: "10-aws.conflist"
+            #
             {{- else if eq .Values.cluster.deployTo "aks" }}
-              value: "10-azure.conflist"
+            #  value: "10-azure.conflist"
+            #
             {{- else if eq .Values.cluster.deployTo "openshift" }}
               value: "pan-cni.conf"
             # Name of the directory for CNI config file for our CNI plugin.

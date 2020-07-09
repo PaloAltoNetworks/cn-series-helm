@@ -50,7 +50,6 @@ spec:
           k8s.v1.cni.cncf.io/networks: pan-cni
           {{- end }}
     spec:
-      serviceAccountName: pan-sa
       priorityClassName: system-cluster-critical
       # Minimize downtime during a rolling upgrade or deletion; Can tell Kubernetes
       # to do a "force deletion": 
@@ -89,8 +88,10 @@ spec:
           imagePullPolicy: Always
           securityContext:
             capabilities:
+            {{- if ne .Values.cluster.deployTo "openshift" }}
+              add: ["NET_ADMIN","NET_RAW","NET_BROADCAST","NET_BIND_SERVICE"]
+            {{- else }}
               add: ["ALL"]
-            {{- if eq .Values.cluster.deployTo "openshift" }}
             privileged: true
             runAsNonRoot: false
             {{- end }}
@@ -98,7 +99,7 @@ spec:
             requests:
               # configurable based on desired throughput, number of running pods
               cpu: "1"
-              memory: "2.0Gi"
+              memory: "2Gi"
             limits:
               cpu: "{{ .Values.dp.cpuLimit }}"
               memory: "2.5Gi"

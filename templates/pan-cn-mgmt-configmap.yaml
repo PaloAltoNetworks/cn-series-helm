@@ -13,8 +13,8 @@ data:
   PAN_PANORAMA_IP2: {{ .Values.panorama.ip2 | quote }}
   {{- end }}
   PAN_DEVICE_GROUP: {{ .Values.panorama.deviceGroup | quote }}
-  PAN_TEMPLATE: {{ .Values.panorama.template | quote }}
-  PAN_PANORAMA_CGNAME: {{ .Values.panorama.cgName | quote }}
+  PAN_TEMPLATE_STACK: {{ .Values.panorama.template | quote }}
+  PAN_CGNAME: {{ .Values.panorama.cgName | quote }}
 
   # Intended License Bundle type - "CN-X-BASIC, CN-X-BND1, CN-X-BND2"
   {{- if eq .Values.firewall.licenseBundle "basic" }}
@@ -25,13 +25,18 @@ data:
   PAN_BUNDLE_TYPE: "CN-X-BND2"
   {{- end }}
 
-  # Non-mandatory parameters
+#Non-mandatory parameters
   # Recommended to have same name as the cluster name provided in Panorama Kubernetes plugin - helps with easier identification of pods if managing multiple clusters with same Panorama
   #CLUSTER_NAME: "<Cluster name>"
-  #PAN_PANORAMA_IP2: ""
 
+  #PAN_PANORAMA_IP2: ""
+  
   # Comment out to use CERTs otherwise bypass encrypted connection to etcd in pan-mgmt.
+  {{- if eq .Values.cluster.deployTo "eks" }}
   # Not using CERTs for etcd due to EKS bug
+  {{- else if eq .Values.cluster.deployTo "openshift" }}
+  # Not using CERTs currently in openshift
+  {{- end }}
   {{- if or (eq .Values.cluster.deployTo "eks") (eq .Values.cluster.deployTo "openshift") }}
   ETCD_CERT_BYPASS: ""          # No value needed
   {{- else }}
@@ -40,7 +45,8 @@ data:
 
   # Comment out to use CERTs otherwise PSK for IPSec between pan-mgmt and pan-ngfw
   {{- if eq .Values.cluster.deployTo "openshift" }}
+  # Not using CERTs currently in openshift
   IPSEC_CERT_BYPASS: ""         # No values needed
   {{- else }}
-  #IPSEC_CERT_BYPASS: ""         # No values needed
+  # IPSEC_CERT_BYPASS: ""         # No values needed
   {{- end }}

@@ -34,7 +34,7 @@ spec:
         app: pan-mgmt
         appname: pan-mgmt-sts
     spec:
-      serviceAccountName: pan-sa
+      serviceAccountName: pan-mgmt-sa
       priorityClassName: system-node-critical
       #terminationGracePeriodSeconds: 60 //for graceful exit of prestop hook
       # Turn on podAntiAffinity to schedule replicas on separate nodes
@@ -207,7 +207,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 4Gi
+          storage: 8Gi
   - metadata:
       name: panplugins
     spec:

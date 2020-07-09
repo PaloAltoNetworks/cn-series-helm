@@ -4,16 +4,16 @@ metadata:
   name: pan-ngfw-config
   namespace: kube-system
 data:
-  PAN_SERVICE_NAME: pan-mgmt-svc # should match the pan-mgmt's Service name
-  FAILOVER_MODE: {{ .Values.firewall.failoverMode }}     # licensing failure behavior
-  DP_RINGBUFFER: "60000"        # buffer count for memory/performance control
-
+  PAN_SERVICE_NAME: pan-mgmt-svc    # should match the pan-cn-mgmt.yaml's Service name
+  FAILOVER_MODE: {{ .Values.firewall.failoverMode }}           # licensing failure behavior
+  DP_RINGBUFFER: "60000"            # buffer count for memory/performance control
+  
   # Comment out to use CERTs otherwise PSK for IPSec between pan-mgmt and pan-ngfw
   {{- if eq .Values.cluster.deployTo "openshift" }}
   # Not using CERTs currently in openshift
   IPSEC_CERT_BYPASS: ""             # No values needed
   {{- else }}
-  #IPSEC_CERT_BYPASS: ""             # No values needed
+  #IPSEC_CERT_BYPASS: ""            # No values needed
   {{- end }}
   
   #IPSEC_NAT_PORT_RANGE: "4500-4500"    # port range to avoid stale connections

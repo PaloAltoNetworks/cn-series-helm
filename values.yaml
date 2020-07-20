@@ -5,7 +5,7 @@
 # The K8s environment 
 # Valid deployTo tags are: [gke|eks|aks|openshift|native]
 cluster:
-  deployTo: gke
+  deployTo: 
 
 # Firewall tags
 # Valid licenceBundle tags are: [basic|bundle1|bundle2]
@@ -16,13 +16,19 @@ firewall:
 
 # Panorama tags
 panorama:
-  ip: <panorama-IP>
-  ip2: ""
-  authKey: "<panorama-auth-key>"
-  deviceGroup: <panorama-device-group>
-  template: <panorama-template-stack>
-  cgName: <panorama-collector-group>
+  ip: 
+  ip2: 
+  authKey: 
+  deviceGroup: 
+  template: 
+  cgName: 
 
+# Customer Support Portal PIN information
+csp:
+ pidId: 
+ pinValue: 
+ alternateUrl: 
+ 
 # MP container tags
 mp:
  initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
@@ -41,12 +47,6 @@ dp:
 cni:
  image: docker.io/paloaltonetworks/pan_cni
  version: 1.0.0
-
-# Customer Support Portal PIN information
-csp:
- pidId: red
- pinValue: white
- alternateUrl: 
 
 
 ############

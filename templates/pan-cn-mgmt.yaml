@@ -137,6 +137,11 @@ spec:
             mountPath: /opt/pancfg/mgmt/plugins/
           - name: panplugincfg
             mountPath: /opt/plugins/opt/pancfg/mgmt/plugins/
+          {{- if eq .Values.cluster.deployTo "native" }}
+          - name: devnettun
+            mountPath: /dev/net/tun
+            readOnly: false
+          {{- end }}
           - mountPath: /dev/shm
             name: dshm
           envFrom:
@@ -169,6 +174,11 @@ spec:
                 fieldPath: spec.nodeName
  
       volumes:
+      {{- if eq .Values.cluster.deployTo "native" }}
+      - name: devnettun
+        hostPath:
+          path: /dev/net/tun
+      {{- end }}
       - name: dshm
         emptyDir:
           medium: Memory
@@ -180,6 +190,23 @@ spec:
       resources:
         requests:
           storage: 20Gi
+      {{- if eq .Values.cluster.deployTo "native" }}
+      # Note: Use of dynamically provisioned PVs is strongly recommend.
+      # Disable storageClassName to use dynamically provisioned PVs.
+      #
+      # Enable this to use manual PVs (for single node clusters only), after
+      # deploying manual PVs with matching storage capacities (can use 
+      # provided pan-cn-pv-manual.yaml as is).
+      #storageClassName: manual
+      #
+      # Enable this to use Local PVs, after deploying pan-local-storage 
+      # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
+      # after creating the mount point on the host nodes for local PVs .
+      storageClassName: pan-local-storage
+      selector:
+        matchLabels:
+            pv: panlogs
+      {{- end }}
   - metadata:
       name: varlogpan
     spec:
@@ -187,6 +214,23 @@ spec:
       resources:
         requests:
           storage: 20Gi
+      {{- if eq .Values.cluster.deployTo "native" }}
+      # Note: Use of dynamically provisioned PVs is strongly recommend.
+      # Disable storageClassName to use dynamically provisioned PVs.
+      #
+      # Enable this to use manual PVs (for single node clusters only), after
+      # deploying manual PVs with matching storage capacities (can use 
+      # provided pan-cn-pv-manual.yaml as is).
+      #storageClassName: manual
+      #
+      # Enable this to use Local PVs, after deploying pan-local-storage 
+      # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
+      # after creating the mount point on the host nodes for local PVs .
+      storageClassName: pan-local-storage
+      selector:
+        matchLabels:
+            pv: panvarlog
+      {{- end }}
   - metadata:
       name: varcores
     spec:
@@ -194,6 +238,23 @@ spec:
       resources:
         requests:
           storage: 2Gi
+      {{- if eq .Values.cluster.deployTo "native" }}
+      # Note: Use of dynamically provisioned PVs is strongly recommend.
+      # Disable storageClassName to use dynamically provisioned PVs.
+      #
+      # Enable this to use manual PVs (for single node clusters only), after
+      # deploying manual PVs with matching storage capacities (can use 
+      # provided pan-cn-pv-manual.yaml as is).
+      #storageClassName: manual
+      #
+      # Enable this to use Local PVs, after deploying pan-local-storage 
+      # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
+      # after creating the mount point on the host nodes for local PVs .
+      storageClassName: pan-local-storage
+      selector:
+        matchLabels:
+            pv: panvarcores
+      {{- end }}
   - metadata:
       name: panplugincfg
     spec:
@@ -201,6 +262,23 @@ spec:
       resources:
         requests:
           storage: 1Gi
+      {{- if eq .Values.cluster.deployTo "native" }}
+      # Note: Use of dynamically provisioned PVs is strongly recommend.
+      # Disable storageClassName to use dynamically provisioned PVs.
+      #
+      # Enable this to use manual PVs (for single node clusters only), after
+      # deploying manual PVs with matching storage capacities (can use 
+      # provided pan-cn-pv-manual.yaml as is).
+      #storageClassName: manual
+      #
+      # Enable this to use Local PVs, after deploying pan-local-storage 
+      # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
+      # after creating the mount point on the host nodes for local PVs .
+      storageClassName: pan-local-storage
+      selector:
+        matchLabels:
+            pv: panplugincfg
+      {{- end }}
   - metadata:
       name: panconfig
     spec:
@@ -208,6 +286,23 @@ spec:
       resources:
         requests:
           storage: 8Gi
+      {{- if eq .Values.cluster.deployTo "native" }}
+      # Note: Use of dynamically provisioned PVs is strongly recommend.
+      # Disable storageClassName to use dynamically provisioned PVs.
+      #
+      # Enable this to use manual PVs (for single node clusters only), after
+      # deploying manual PVs with matching storage capacities (can use 
+      # provided pan-cn-pv-manual.yaml as is).
+      #storageClassName: manual
+      #
+      # Enable this to use Local PVs, after deploying pan-local-storage 
+      # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
+      # after creating the mount point on the host nodes for local PVs .
+      storageClassName: pan-local-storage
+      selector:
+        matchLabels:
+            pv: panconfig
+      {{- end }}
   - metadata:
       name: panplugins
     spec:
@@ -215,3 +310,20 @@ spec:
       resources:
         requests:
           storage: 200Mi
+      {{- if eq .Values.cluster.deployTo "native" }}
+      # Note: Use of dynamically provisioned PVs is strongly recommend.
+      # Disable storageClassName to use dynamically provisioned PVs.
+      #
+      # Enable this to use manual PVs (for single node clusters only), after
+      # deploying manual PVs with matching storage capacities (can use 
+      # provided pan-cn-pv-manual.yaml as is).
+      #storageClassName: manual
+      #
+      # Enable this to use Local PVs, after deploying pan-local-storage 
+      # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
+      # after creating the mount point on the host nodes for local PVs .
+      storageClassName: pan-local-storage
+      selector:
+        matchLabels:
+            pv: panplugins
+      {{- end }}

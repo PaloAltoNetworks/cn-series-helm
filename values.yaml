@@ -3,9 +3,9 @@
 # Declare variables to be passed into your templates.
 
 # The K8s environment 
-# Valid deployTo tags are: [gke|eks|aks|openshift]
+# Valid deployTo tags are: [gke|eks|aks|openshift|native]
 cluster:
-  deployTo: 
+  deployTo: gke
 
 # Firewall tags
 # Valid licenceBundle tags are: [basic|bundle1|bundle2]
@@ -16,31 +16,37 @@ firewall:
 
 # Panorama tags
 panorama:
-  ip: 
-  ip2: 
-  authKey: ""
-  deviceGroup: 
-  template: 
-  cgName: 
+  ip: <panorama-IP>
+  ip2: ""
+  authKey: "<panorama-auth-key>"
+  deviceGroup: <panorama-device-group>
+  template: <panorama-template-stack>
+  cgName: <panorama-collector-group>
 
 # MP container tags
 mp:
  initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
- initVersion: 1.0.0-b6
+ initVersion: 1.0.0
  image: docker.io/paloaltonetworks/panos_cn_mgmt
- version: 10.0.0-b61
+ version: 10.0.0
  cpuLimit: 4
 
 # DP container tags
 dp:
  image: docker.io/paloaltonetworks/panos_cn_ngfw
- version: 10.0.0-b61
+ version: 10.0.0
  cpuLimit: 2
 
 # CNI container tags
 cni:
  image: docker.io/paloaltonetworks/pan_cni
- version: 1.0.0-b6
+ version: 1.0.0
+
+# Customer Support Portal PIN information
+csp:
+ pidId: red
+ pinValue: white
+ alternateUrl: 
 
 
 ############

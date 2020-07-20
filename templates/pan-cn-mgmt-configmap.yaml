@@ -16,7 +16,8 @@ data:
   PAN_TEMPLATE_STACK: {{ .Values.panorama.template | quote }}
   PAN_CGNAME: {{ .Values.panorama.cgName | quote }}
 
-  # Intended License Bundle type - "CN-X-BASIC, CN-X-BND1, CN-X-BND2"
+  # Intended License Bundle type - "CN-X-BASIC", "CN-X-BND1", "CN-X-BND2"
+  # based on the authcode applied on the Panorama K8S plugin"
   {{- if eq .Values.firewall.licenseBundle "basic" }}
   PAN_BUNDLE_TYPE: "CN-X-BASIC"
   {{- else if eq .Values.firewall.licenseBundle "bundle1" }}

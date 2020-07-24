@@ -117,7 +117,7 @@ spec:
         - name: cni-net-dir
           hostPath:
             {{- if eq .Values.cluster.deployTo "openshift" }}
-            path: /etc/cni/multus/net.d
+            path: {{ .Values.multusNetDPath }}
             {{- else }}
             path: /etc/cni/net.d
             {{- end }}

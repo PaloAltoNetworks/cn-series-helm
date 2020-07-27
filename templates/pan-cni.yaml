@@ -5,7 +5,7 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: pan-cni
-  namespace: kube-system
+  namespace: {{ .Values.targetNamespace | default "kube-system" | quote }}
   labels:
     k8s-app: pan-cni
 spec:

@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+targetNamespace: "kube-system"
+
 # Default Storageclass for openshift only
 defaultStorageClass: default
 
@@ -31,9 +33,9 @@ panorama:
 
 # Customer Support Portal PIN information
 csp:
- pidId: 
- pinValue: 
- alternateUrl: 
+ pidId: ""
+ pinValue: ""
+ alternateUrl: ""
  
 # MP container tags
 mp:

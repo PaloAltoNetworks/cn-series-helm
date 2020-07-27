@@ -4,4 +4,7 @@ apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
   name: pan-cni
+  # Defining it in kube-system for pan-ngfw-ds. 
+  # Do this for each namespace where app pod can be run
+  namespace: {{ .Values.targetNamespace | default "kube-system" | quote }}
 {{- end }}

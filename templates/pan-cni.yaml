@@ -86,7 +86,7 @@ spec:
               value: "pan-cni.conf"
             # Name of the directory for CNI config file for our CNI plugin.
             - name: CNI_NET_DIR
-              value: "/etc/cni/multus/net.d"
+              value: "{{ .Values.multusNetDPath }}"
             # Whether to deploy the configuration file as a plugin chain or as 
             # a standalone file (for multus) in cni-conf-dir
             - name: CHAINED_CNI_PLUGIN

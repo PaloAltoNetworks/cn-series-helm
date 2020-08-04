@@ -11,7 +11,7 @@ This repository contains charts and templates for deploying the Palo Alto Networ
   * Kubernetes plugin for Panorama version 1.0.0
   * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.13 or 1.14 cluster
+  * Kubernetes 1.13 - 1.15 cluster
   * A current kubeconfig file
 * Helm
   * [Helm 3](https://helm.sh/docs/intro/install/) client
@@ -95,7 +95,7 @@ $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 ```
 $ helm search repo cn-series
 NAME               	CHART VERSION	APP VERSION	DESCRIPTION
-cn-series/cn-series	0.1.2        	9.2.0      	Palo Alto Networks CN-Series firewall Helm char...
+cn-series/cn-series	0.1.4        	10.0.0      	Palo Alto Networks CN-Series firewall Helm char...
 ```
 
 4. Select the Kubernetes cluster

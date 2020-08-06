@@ -5,7 +5,7 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: pan-cni
-  namespace: kube-system
+  namespace: {{ .Values.targetNamespace | default "kube-system" | quote }}
   labels:
     k8s-app: pan-cni
 spec:
@@ -86,7 +86,7 @@ spec:
               value: "pan-cni.conf"
             # Name of the directory for CNI config file for our CNI plugin.
             - name: CNI_NET_DIR
-              value: "/etc/cni/multus/net.d"
+              value: "{{ .Values.multusNetDPath }}"
             # Whether to deploy the configuration file as a plugin chain or as 
             # a standalone file (for multus) in cni-conf-dir
             - name: CHAINED_CNI_PLUGIN
@@ -117,7 +117,7 @@ spec:
         - name: cni-net-dir
           hostPath:
             {{- if eq .Values.cluster.deployTo "openshift" }}
-            path: /etc/cni/multus/net.d
+            path: {{ .Values.multusNetDPath }}
             {{- else }}
             path: /etc/cni/net.d
             {{- end }}

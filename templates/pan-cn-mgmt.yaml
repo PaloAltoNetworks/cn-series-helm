@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: pan-mgmt-svc
-  namespace: kube-system
+  namespace: {{ .Values.targetNamespace | default "kube-system" | quote }}
   labels:
     app: pan-mgmt-svc
 spec:
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: pan-mgmt-sts
-  namespace: kube-system
+  namespace: {{ .Values.targetNamespace | default "kube-system" | quote }}
 spec:
   selector:
     matchLabels:
@@ -206,6 +206,8 @@ spec:
       selector:
         matchLabels:
             pv: panlogs
+      {{- else if and (eq .Values.cluster.deployTo "openshift") (.Values.defaultStorageClass) }}
+      storageClassName: "{{ .Values.defaultStorageClass }}"
       {{- end }}
   - metadata:
       name: varlogpan
@@ -230,6 +232,8 @@ spec:
       selector:
         matchLabels:
             pv: panvarlog
+      {{- else if and (eq .Values.cluster.deployTo "openshift") (.Values.defaultStorageClass) }}
+      storageClassName: "{{ .Values.defaultStorageClass }}"
       {{- end }}
   - metadata:
       name: varcores
@@ -254,6 +258,8 @@ spec:
       selector:
         matchLabels:
             pv: panvarcores
+      {{- else if and (eq .Values.cluster.deployTo "openshift") (.Values.defaultStorageClass) }}
+      storageClassName: "{{ .Values.defaultStorageClass }}"
       {{- end }}
   - metadata:
       name: panplugincfg
@@ -278,6 +284,8 @@ spec:
       selector:
         matchLabels:
             pv: panplugincfg
+      {{- else if and (eq .Values.cluster.deployTo "openshift") (.Values.defaultStorageClass) }}
+      storageClassName: "{{ .Values.defaultStorageClass }}"
       {{- end }}
   - metadata:
       name: panconfig
@@ -302,6 +310,8 @@ spec:
       selector:
         matchLabels:
             pv: panconfig
+      {{- else if and (eq .Values.cluster.deployTo "openshift") (.Values.defaultStorageClass) }}
+      storageClassName: "{{ .Values.defaultStorageClass }}"
       {{- end }}
   - metadata:
       name: panplugins
@@ -326,4 +336,6 @@ spec:
       selector:
         matchLabels:
             pv: panplugins
+      {{- else if and (eq .Values.cluster.deployTo "openshift") (.Values.defaultStorageClass) }}
+      storageClassName: "{{ .Values.defaultStorageClass }}"
       {{- end }}

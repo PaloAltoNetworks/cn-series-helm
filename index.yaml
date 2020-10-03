@@ -2,8 +2,19 @@ apiVersion: v1
 entries:
   cn-series:
   - apiVersion: v2
+    appVersion: 10.0.1
+    created: "2020-10-02T22:22:31.122697-04:00"
+    description: Palo Alto Networks CN-Series firewall Helm chart for Kubernetes
+    digest: 9e408045a5320640da1a76e4992f4027deacf8560f150538665a917e3a3adfbf
+    icon: https://www.paloaltonetworks.com/content/dam/pan/en_US/images/logos/brand/strata-primary/Strata_Tagline_Logo_RGB.png
+    name: cn-series
+    type: application
+    urls:
+    - https://paloaltonetworks.github.io/cn-series-helm/cn-series-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
     appVersion: 10.0.0
-    created: "2020-07-20T18:02:31.748291-04:00"
+    created: "2020-10-02T22:22:31.122003-04:00"
     description: Palo Alto Networks CN-Series firewall Helm chart for Kubernetes
     digest: a4d10eb7d8859018b2c67011fa087094e9667143aef4bcd4ee5826f30bb36c86
     icon: https://www.paloaltonetworks.com/content/dam/pan/en_US/images/logos/brand/strata-primary/Strata_Tagline_Logo_RGB.png
@@ -14,7 +25,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 10.0.0
-    created: "2020-07-20T18:02:31.745443-04:00"
+    created: "2020-10-02T22:22:31.120684-04:00"
     description: Palo Alto Networks CN-Series firewall Helm chart for Kubernetes
     digest: 318c13cca8a181eb00f011b1f20d951ebf5b837e422e985792be11fc9c00d5d1
     icon: https://www.paloaltonetworks.com/content/dam/pan/en_US/images/logos/brand/strata-primary/Strata_Tagline_Logo_RGB.png
@@ -25,7 +36,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 9.2.0
-    created: "2020-07-20T18:02:31.742906-04:00"
+    created: "2020-10-02T22:22:31.118334-04:00"
     description: Palo Alto Networks CN-Series firewall Helm chart for Kubernetes
     digest: c76b2b0ecd75ada29aa1800eb26a6fc939b1ece5bb7647bfdfbcef6cb71115aa
     icon: https://www.paloaltonetworks.com/content/dam/pan/en_US/images/logos/brand/strata-primary/Strata_Tagline_Logo_RGB.png
@@ -36,7 +47,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 9.2.0
-    created: "2020-07-20T18:02:31.74191-04:00"
+    created: "2020-10-02T22:22:31.117736-04:00"
     description: Palo Alto Networks CN-Series firewall Helm chart for Kubernetes
     digest: ba7e42318a9f7db8895caf4e589a3a61383e1f1dbe5020a1a4bc12f96d2c8311
     name: cn-series
@@ -44,4 +55,4 @@ entries:
     urls:
     - https://paloaltonetworks.github.io/cn-series-helm/cn-series-0.1.1.tgz
     version: 0.1.1
-generated: "2020-07-20T18:02:31.740355-04:00"
+generated: "2020-10-02T22:22:31.115673-04:00"

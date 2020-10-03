@@ -5,7 +5,7 @@
 # The K8s environment 
 # Valid deployTo tags are: [gke|eks|aks|openshift|native]
 cluster:
-  deployTo: native
+  deployTo: 
 
 # Firewall tags
 # Valid licenceBundle tags are: [basic|bundle1|bundle2]
@@ -16,18 +16,18 @@ firewall:
 
 # Panorama tags
 panorama:
-  ip: panorama.panlabs.org
+  ip: 
   ip2: 
-  authKey: "1234567890"         # authKey must be in quotations
-  deviceGroup: aks-dg
-  template: aks-template
-  cgName: panorama-logger
+  authKey: ""         # authKey must be in quotations
+  deviceGroup: 
+  template: 
+  cgName: 
 
 # Customer Support Portal PIN information
 csp:
-  pidId: asdf
-  pinValue: asdf
-  alternateUrl: asdf
+  pidId: 
+  pinValue: 
+  alternateUrl: 
  
 # MP container tags
 mp:

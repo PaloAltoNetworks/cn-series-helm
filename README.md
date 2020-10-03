@@ -16,6 +16,10 @@ This repository contains charts and templates for deploying the Palo Alto Networ
 * Helm
   * [Helm 3](https://helm.sh/docs/intro/install/) client
 
+A full list of supported Kubernetes environments may be found here: 
+
+[https://docs.paloaltonetworks.com/cn-series/10-0/cn-series-deployment/cn-series-firewall-for-kubernetes/cn-series-deployment-environments.html](https://docs.paloaltonetworks.com/cn-series/10-0/cn-series-deployment/cn-series-firewall-for-kubernetes/cn-series-deployment-environments.html)
+
 ## Usage
 
 ### Method 1 - With Repo
@@ -61,22 +65,28 @@ panorama:
 # MP container tags
 mp:
  initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
- initVersion: 1.0.0
+ initVersion: latest
  image: docker.io/paloaltonetworks/panos_cn_mgmt
- version: 10.0.0
+ version: latest
  cpuLimit: 4
 
 # DP container tags
 dp:
  image: docker.io/paloaltonetworks/panos_cn_ngfw
- version: 10.0.0
+ version: latest
  cpuLimit: 2
 
 # CNI container tags
 cni:
  image: docker.io/paloaltonetworks/pan_cni
- version: 1.0.0
+ version: latest
  ```
+
+5. Install the Helm chart
+
+```bash
+$ helm install my-deployment .
+```
 
 
 ### Method 2 - Without Repo 
@@ -86,7 +96,7 @@ cni:
 2. Add the cn-series repo to your local Helm client
 
 ```bash
-$ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
+$ helm repo add paloaltonetworks https://paloaltonetworks.github.io/cn-series-helm
 "cn-series" has been added to your repositories
 ```
 
@@ -94,8 +104,8 @@ $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 
 ```
 $ helm search repo cn-series
-NAME               	CHART VERSION	APP VERSION	DESCRIPTION
-cn-series/cn-series	0.1.5        	10.0.0      	Palo Alto Networks CN-Series firewall Helm char...
+NAME               	         CHART VERSION	 APP VERSION	  DESCRIPTION
+paloaltonetworks/cn-series	 0.1.5        	 10.0.0      	  Palo Alto Networks CN-Series firewall Helm char...
 ```
 
 4. Select the Kubernetes cluster
@@ -107,7 +117,7 @@ $ kubectl config set-cluster NAME
 5. Deploy using the Helm chart repo
 
 ```bash
-$ helm install my-deployment cn-series/cn-series \
+$ helm install my-deployment paloaltonetworks/cn-series \
 --set cluster.deployTo="gke|eks|aks|openshift"
 --set panorama.ip="panorama hostname or ip" \
 --set panorama.ip2="panorama2 hostname or ip" \

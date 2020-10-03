@@ -51,3 +51,6 @@ data:
   {{- else }}
   # IPSEC_CERT_BYPASS: ""         # No values needed
   {{- end }}
+  
+  # Override auto-detect of jumbo-frame mode and force enable system-wide
+  #PAN_JUMBO_FRAME_ENABLED: "true"

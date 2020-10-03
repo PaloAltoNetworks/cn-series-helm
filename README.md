@@ -9,9 +9,9 @@ This repository contains charts and templates for deploying the Palo Alto Networ
 * Panorama
   * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.0.0
   * Kubernetes plugin for Panorama version 1.0.0
-  * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
+  * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.13 - 1.15 cluster
+  * Kubernetes 1.13 - 1.18 cluster
   * A current kubeconfig file
 * Helm
   * [Helm 3](https://helm.sh/docs/intro/install/) client
@@ -20,7 +20,7 @@ This repository contains charts and templates for deploying the Palo Alto Networ
 
 ### Method 1 - With Repo
 
-1. [Generate the VM authorization key on Panorama](https://docs.paloaltonetworks.com/vm-series/9-1/vm-series-deployment/bootstrap-the-vm-series-firewall/generate-the-vm-auth-key-on-panorama.html)
+1. [Generate the VM authorization key on Panorama](https://docs.paloaltonetworks.com/vm-series/10-0/vm-series-deployment/bootstrap-the-vm-series-firewall/generate-the-vm-auth-key-on-panorama.html)
 
 2. Clone the repository from GitHub
 
@@ -60,21 +60,21 @@ panorama:
 
 # MP container tags
 mp:
- initImage:  docker.io/acmewidgets/pan_cn_mgmt_init
+ initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
  initVersion: 1.0.0
- image: docker.io/acmewidgets/panos_cn_mgmt
+ image: docker.io/paloaltonetworks/panos_cn_mgmt
  version: 10.0.0
  cpuLimit: 4
 
 # DP container tags
 dp:
- image: docker.io/acmewidgets/panos_cn_ngfw
+ image: docker.io/paloaltonetworks/panos_cn_ngfw
  version: 10.0.0
  cpuLimit: 2
 
 # CNI container tags
 cni:
- image: docker.io/acmewidgets/pan_cni
+ image: docker.io/paloaltonetworks/pan_cni
  version: 1.0.0
  ```
 
@@ -95,7 +95,7 @@ $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 ```
 $ helm search repo cn-series
 NAME               	CHART VERSION	APP VERSION	DESCRIPTION
-cn-series/cn-series	0.1.4        	10.0.0      	Palo Alto Networks CN-Series firewall Helm char...
+cn-series/cn-series	0.1.5        	10.0.0      	Palo Alto Networks CN-Series firewall Helm char...
 ```
 
 4. Select the Kubernetes cluster
@@ -107,7 +107,7 @@ $ kubectl config set-cluster NAME
 5. Deploy using the Helm chart repo
 
 ```bash
-$ helm install cn-series/cn-series --name="deployment name" \
+$ helm install my-deployment cn-series/cn-series \
 --set cluster.deployTo="gke|eks|aks|openshift"
 --set panorama.ip="panorama hostname or ip" \
 --set panorama.ip2="panorama2 hostname or ip" \

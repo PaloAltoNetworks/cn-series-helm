@@ -58,6 +58,7 @@ spec:
       # sending dereg to PAN-MGMT
       terminationGracePeriodSeconds: 10
       hostAliases:
+      # Internal IP address of ipsec0 interface on MGMT pod
       - ip: "169.254.202.1"
         hostnames:
           - mgmt
@@ -106,6 +107,10 @@ spec:
           volumeMounts:
           - mountPath: /opt/appinfo
             name: appinfo
+          {{- if ne .Values.cluster.deployTo "openshift" }}
+          - mountPath: /opt/pan-cni-ready
+            name: pan-cni-ready
+          {{- end }}
           - mountPath: /dev/net/tun
             name: devnettun
             readOnly: false

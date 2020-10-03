@@ -91,6 +91,11 @@ spec:
             # a standalone file (for multus) in cni-conf-dir
             - name: CHAINED_CNI_PLUGIN
               value: "false"
+            {{- else if eq .Values.cluster.deployTo "native" }}
+            #  value: "10-calico.conflist"
+            #  value: "10-aws.conflist"
+            #  value: "10-azure.conflist"
+            #
             {{- end }}
             # This is optional. After pan-cni insertion, delay for it to be
             # picked up/propogated before makring pan-cni-ready (default 30 seconds)

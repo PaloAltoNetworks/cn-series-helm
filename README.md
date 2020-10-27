@@ -62,6 +62,12 @@ panorama:
   template: my-stack
   cgName: my-collector
 
+# Customer Support Portal PIN information
+csp:
+  pinId: my-pin-id
+  pinValue: my-pin-value
+  alternateUrl: 
+
 # MP container tags
 mp:
  initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
@@ -105,7 +111,7 @@ $ helm repo add paloaltonetworks https://paloaltonetworks.github.io/cn-series-he
 ```
 $ helm search repo cn-series
 NAME               	         CHART VERSION	 APP VERSION	  DESCRIPTION
-paloaltonetworks/cn-series	 0.1.5        	 10.0.0      	  Palo Alto Networks CN-Series firewall Helm char...
+paloaltonetworks/cn-series	 0.1.6        	 10.0.0      	  Palo Alto Networks CN-Series firewall Helm char...
 ```
 
 4. Select the Kubernetes cluster

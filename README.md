@@ -22,7 +22,7 @@ A full list of supported Kubernetes environments may be found here:
 
 ## Usage
 
-### Method 1 - With Repo
+### Method 1 - Local Repo
 
 1. [Generate the VM authorization key on Panorama](https://docs.paloaltonetworks.com/vm-series/10-0/vm-series-deployment/bootstrap-the-vm-series-firewall/generate-the-vm-auth-key-on-panorama.html)
 
@@ -88,14 +88,22 @@ cni:
  version: latest
  ```
 
-5. Install the Helm chart
+1. Deploy the local chart.
 
-```bash
-$ helm install my-deployment .
+ ```
+ cd ..
+ helm install my-deployment ./cn-series-helm
+ ```
+
+2. Extract the pan-plugin-user service account JSON file for the Panorama plugin.
+
+```
+MY_TOKEN=`kubectl get serviceaccounts pan-plugin-user -n kube-system -o jsonpath='{.secrets[0].name}'`
+kubectl get secret $MY_TOKEN -n kube-system -o json > plugin-svc-acct.json
 ```
 
 
-### Method 2 - Without Repo 
+### Method 2 - Remote Repo 
 
 1. [Generate the VM authorization key on Panorama](https://docs.paloaltonetworks.com/vm-series/9-1/vm-series-deployment/bootstrap-the-vm-series-firewall/generate-the-vm-auth-key-on-panorama.html)
 
@@ -143,20 +151,12 @@ $ helm install my-deployment paloaltonetworks/cn-series \
 --set dp.cpuLimit="cpu max"
 ```
 
-## Support
+1. Extract the pan-plugin-user service account JSON file for the Panorama plugin.
 
-This template/solution is released under an as-is, best effort, support
-policy. These scripts should be seen as community supported and Palo
-Alto Networks will contribute our expertise as and when possible. We do
-not provide technical support or help in using or troubleshooting the
-components of the project through our normal support options such as
-Palo Alto Networks support teams, or ASC (Authorized Support Centers)
-partners and backline support options. The underlying product used (the
-VM-Series firewall) by the scripts or templates are still supported, but
-the support is only for the product functionality and not for help in
-deploying or using the template or script itself.
+```
+MY_TOKEN=`kubectl get serviceaccounts pan-plugin-user -n kube-system -o jsonpath='{.secrets[0].name}'`
+kubectl get secret $MY_TOKEN -n kube-system -o json > plugin-svc-acct.json
+```
 
-Unless explicitly tagged, all projects or work posted in our GitHub
-repository (at <https://github.com/PaloAltoNetworks>) or sites other
-than our official Downloads page on <https://support.paloaltonetworks.com>
-are provided under the best effort policy.
+
+

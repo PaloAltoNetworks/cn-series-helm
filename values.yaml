@@ -18,7 +18,7 @@ firewall:
 panorama:
   ip: 
   ip2: 
-  authKey: ""         # authKey must be in quotations
+  authKey: 
   deviceGroup: 
   template: 
   cgName: 

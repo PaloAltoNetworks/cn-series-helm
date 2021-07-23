@@ -42,7 +42,7 @@ $ cd cn-series-helm
 
 ```yaml
 # The K8s environment 
-# Valid deployTo tags are: [gke|eks|aks|openshift]
+# Valid deployTo tags are: [gke|eks|aks|openshift|native]
 cluster:
   deployTo: gke
 

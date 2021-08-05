@@ -33,6 +33,7 @@ $ git clone https://github.com/PaloAltoNetworks/cn-series-helm.git
 ```bash
 $ cd cn-series-helm
 ```
+Use the directory ```helm_cnv1_sapporo for cnv1 10.0.x as a daemon set, helm_cnv1_seatlle for cnv1 10.1.x as a daemon set and helm_cnv2 for deploying cnv2 as a service```.  
 
 4. Edit the `values.yaml` file and plug in your specific configs
 

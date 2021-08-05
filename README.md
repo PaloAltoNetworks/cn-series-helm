@@ -5,10 +5,10 @@ This repository contains charts and templates for deploying the Palo Alto Networ
 ## Minimum requirements
 
 * CN-Series
-  * CN-Series 10.0.0 container images
+  * CN-Series 10.x.x container images
 * Panorama
-  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.0.0
-  * Kubernetes plugin for Panorama version 1.0.0
+  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.x.x
+  * Kubernetes plugin for Panorama version 1.0.x,2.0.x
   * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
   * Kubernetes 1.13 or 1.14 cluster

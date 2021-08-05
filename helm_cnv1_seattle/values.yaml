@@ -8,7 +8,6 @@ cluster:
   deployTo: 
 
 # Firewall tags
-# Valid licenceBundle tags are: [basic|bundle1|bundle2] # License bundle valid only for 10.0.x PanOS versions
 firewall:
 
   failoverMode: failopen

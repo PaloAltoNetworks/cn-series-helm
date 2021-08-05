@@ -11,7 +11,7 @@ This repository contains charts and templates for deploying the Palo Alto Networ
   * Kubernetes plugin for Panorama version 1.0.x,2.0.x
   * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.13 or 1.14 cluster
+  * Kubernetes 1.13 - 1.20 cluster
   * A current kubeconfig file
 * Helm
   * [Helm 3](https://helm.sh/docs/intro/install/) client
@@ -34,11 +34,13 @@ $ git clone https://github.com/PaloAltoNetworks/cn-series-helm.git
 $ cd cn-series-helm
 ```
 
+Use the directory ```helm_cnv1_sapporo for cnv1 10.0.x as a daemon set, helm_cnv1_seatlle for cnv1 10.1.x as a daemon set and helm_cnv2 for deploying cnv2 as a service```.
+
 4. Edit the `values.yaml` file and plug in your specific configs
 
 ```yaml
 # The K8s environment 
-# Valid deployTo tags are: [gke|eks|aks|openshift]
+# Valid deployTo tags are: [gke|eks|aks|openshift|native]
 cluster:
   deployTo: gke
 

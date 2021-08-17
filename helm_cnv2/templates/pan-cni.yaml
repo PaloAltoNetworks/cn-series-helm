@@ -85,6 +85,7 @@ spec:
             #
             {{- else if eq .Values.cluster.deployTo "openshift" }}
               value: "pan-cni.conf"
+            {{- end }}
             # Name of the primary CNI config file to add our CNI plugin.
             # This is optional. We always wait until this configured (if
             # configured) or any cni conf file is detected. If configured

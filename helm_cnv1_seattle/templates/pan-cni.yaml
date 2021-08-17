@@ -114,6 +114,7 @@ spec:
             path: /var/lib/cni/bin
             {{- else }}
             path: /opt/cni/bin
+            {{- end }}
         - name: cni-net-dir
           hostPath:
             {{- if eq .Values.cluster.deployTo "openshift" }}

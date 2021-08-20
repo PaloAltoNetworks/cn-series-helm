@@ -122,7 +122,7 @@ spec:
               cpu: "2"
               memory: "2.0Gi"
             limits:
-              cpu: "{{ .Values.mp.cpuLimit }}
+              cpu: "{{ .Values.mp.cpuLimit }}"
               memory: "4.0Gi"
           volumeMounts:
           - name: panlogs

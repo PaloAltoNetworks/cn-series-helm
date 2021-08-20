@@ -227,6 +227,5 @@ spec:
   persistentVolumeReclaimPolicy: Recycle
   hostPath:
     path: "/mnt/auto12"
-
-{{- end }
+{{- end }}
 

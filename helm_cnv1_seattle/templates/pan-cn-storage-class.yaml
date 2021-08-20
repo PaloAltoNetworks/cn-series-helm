@@ -27,5 +27,5 @@ metadata:
 provisioner: pd.csi.storage.gke.io
 parameters:
   type: pd-ssd
-{{- end}}  
+{{- end }}  
 

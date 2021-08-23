@@ -82,6 +82,7 @@ spec:
             #
             {{- else if eq .Values.cluster.deployTo "openshift" }}
               value: "pan-cni.conf"
+            {{- end }}
             - name: CNI_NET_DIR
               value: "/etc/cni/multus/net.d"
             # Whether to deploy the configuration file as a plugin chain or as 

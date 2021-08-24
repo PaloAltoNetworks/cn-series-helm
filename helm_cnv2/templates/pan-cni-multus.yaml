@@ -118,4 +118,4 @@ spec:
             # pan-ngfw-ds's "appinfo" and part of "pan-cni-ready" volumes
             path: /var/log/pan-appinfo
             type: DirectoryOrCreate
-{{- end-}}
+{{- end -}}

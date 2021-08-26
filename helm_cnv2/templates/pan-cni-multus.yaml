@@ -58,7 +58,7 @@ spec:
         # This container installs the pan CNI binaries
         # and CNI network config file on each node.
         - name: install-pan-cni
-          image: <your-private-registry-image-path>
+          image: "{{ .Values.cni.image }}:{{ .Values.cni.version }}"
           imagePullPolicy: Always
           command: ["/install-pan-cni.sh", "main"]
           lifecycle:
@@ -118,4 +118,4 @@ spec:
             # pan-ngfw-ds's "appinfo" and part of "pan-cni-ready" volumes
             path: /var/log/pan-appinfo
             type: DirectoryOrCreate
-{{- end-}}
+{{- end -}}

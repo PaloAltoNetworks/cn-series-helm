@@ -8,7 +8,7 @@ metadata:
     type: local
     pv: panlogs
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 20Gi
   accessModes:
@@ -27,7 +27,7 @@ metadata:
     type: local
     pv: panlogs
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 20Gi
   accessModes:
@@ -46,7 +46,7 @@ metadata:
     type: local
     pv: panvarlog
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 20Gi
   accessModes:
@@ -65,7 +65,7 @@ metadata:
     type: local
     pv: panvarlog
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 20Gi
   accessModes:
@@ -84,7 +84,7 @@ metadata:
     type: local
     pv: panvarcores
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 2Gi
   accessModes:
@@ -103,7 +103,7 @@ metadata:
     type: local
     pv: panvarcores
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 2Gi
   accessModes:
@@ -122,7 +122,7 @@ metadata:
     type: local
     pv: panplugincfg
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 1Gi
   accessModes:
@@ -141,7 +141,7 @@ metadata:
     type: local
     pv: panplugincfg
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 1Gi
   accessModes:
@@ -160,7 +160,7 @@ metadata:
     type: local
     pv: panconfig
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 8Gi
   accessModes:
@@ -179,7 +179,7 @@ metadata:
     type: local
     pv: panconfig
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 8Gi
   accessModes:
@@ -198,7 +198,7 @@ metadata:
     type: local
     pv: panplugins
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 200Mi
   accessModes:
@@ -217,7 +217,7 @@ metadata:
     type: local
     pv: panplugins
 spec:
-  storageClassName: manual
+  storageClassName: {{ default "manual" .Values.storageClassName }}
   capacity:
     storage: 200Mi
   accessModes:

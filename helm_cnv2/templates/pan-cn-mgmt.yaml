@@ -199,7 +199,7 @@ spec:
       # Enable this to use Local PVs, after deploying pan-local-storage 
       # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
       # after creating the mount point on the host nodes for local PVs .
-      storageClassName: pan-local-storage
+      storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
       selector:
         matchLabels:
             pv: panlogs
@@ -225,7 +225,7 @@ spec:
       # Enable this to use Local PVs, after deploying pan-local-storage 
       # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
       # after creating the mount point on the host nodes for local PVs .
-      storageClassName: pan-local-storage
+      storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
       selector:
         matchLabels:
             pv: panvarlog
@@ -249,7 +249,7 @@ spec:
       # Enable this to use Local PVs, after deploying pan-local-storage 
       # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
       # after creating the mount point on the host nodes for local PVs .
-      storageClassName: pan-local-storage
+      storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
       selector:
         matchLabels:
             pv: panvarcores
@@ -273,7 +273,7 @@ spec:
       # Enable this to use Local PVs, after deploying pan-local-storage 
       # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
       # after creating the mount point on the host nodes for local PVs .
-      storageClassName: pan-local-storage
+      storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
       selector:
         matchLabels:
             pv: panplugincfg
@@ -297,7 +297,7 @@ spec:
       # Enable this to use Local PVs, after deploying pan-local-storage 
       # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
       # after creating the mount point on the host nodes for local PVs .
-      storageClassName: pan-local-storage
+      storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
       selector:
         matchLabels:
             pv: panconfig
@@ -321,7 +321,7 @@ spec:
       # Enable this to use Local PVs, after deploying pan-local-storage 
       # storageclass and PVs (refer provided pan-cn-pv-local.yaml) and 
       # after creating the mount point on the host nodes for local PVs .
-      storageClassName: pan-local-storage
+      storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
       selector:
         matchLabels:
             pv: panplugins

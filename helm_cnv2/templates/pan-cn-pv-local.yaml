@@ -15,7 +15,7 @@ metadata:
     type: local
     pv: panlogs
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 20Gi
@@ -46,7 +46,7 @@ metadata:
     type: local
     pv: panlogs
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 20Gi
@@ -77,7 +77,7 @@ metadata:
     type: local
     pv: panvarlog
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 20Gi
@@ -108,7 +108,7 @@ metadata:
     type: local
     pv: panvarlog
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 20Gi
@@ -139,7 +139,7 @@ metadata:
     type: local
     pv: panvarcores
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 2Gi
@@ -170,7 +170,7 @@ metadata:
     type: local
     pv: panvarcores
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 2Gi
@@ -201,7 +201,7 @@ metadata:
     type: local
     pv: panplugincfg
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 1Gi
@@ -232,7 +232,7 @@ metadata:
     type: local
     pv: panplugincfg
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 1Gi
@@ -263,7 +263,7 @@ metadata:
     type: local
     pv: panconfig
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 8Gi
@@ -294,7 +294,7 @@ metadata:
     type: local
     pv: panconfig
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 8Gi
@@ -325,7 +325,7 @@ metadata:
     type: local
     pv: panplugins
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 200Mi
@@ -356,7 +356,7 @@ metadata:
     type: local
     pv: panplugins
 spec:
-  storageClassName: pan-local-storage
+  storageClassName: {{ default "pan-local-storage" .Values.storageClassName }}
   persistentVolumeReclaimPolicy: Delete
   capacity:
     storage: 200Mi

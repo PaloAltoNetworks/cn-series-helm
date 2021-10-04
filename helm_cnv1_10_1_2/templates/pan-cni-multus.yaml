@@ -1,4 +1,4 @@
-{{- if (eq .Values.cluster.deployTo "native") }}
+{{- if and (eq .Values.cluster.deployTo "native") (eq .Values.cluster.multus "enable") }}
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:

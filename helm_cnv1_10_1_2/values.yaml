@@ -1,35 +1,33 @@
 # Default values for cn-series.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-# Supports from PanOS version - 10.1.2
-
 
 # The K8s environment 
-# Valid deployTo tags are: [gke|eks|aks||native]
-# Openshift will be supported from 10.1.3
+# Valid deployTo tags are: [gke|eks|aks|openshift|native]
+# Valid multus tags are : [enable|disable] Keep the multus as enable for openshift and native deployments.
 cluster:
-  deployTo: eks 
-
+  deployTo: eks
+  multus: disable
 
 
 # Firewall tags
 firewall:
   failoverMode: failopen
-  operationMode: "k8s-service"
+
 # Panorama tags
 panorama:
-  ip: "<Panorama-IP>" 
+  ip: "Panorama-IP" 
   ip2: 
-  authKey: "<Panorama-auth-key>"
-  deviceGroup: "<Panorama-device-group>"
-  template: "<panorama-template-stack>" 
-  cgName: "<panorama-collector-group>"
+  authKey: "000xxxxxxxx"
+  deviceGroup: "Panorama-DG"
+  template: "Panorama-TS"
+  cgName: "Panorama-CG"
 
 # Customer Support Portal PIN information
 csp:
-  pinId: ""
-  pinValue: :""
-  alternateUrl: :"" 
+  pinId: 
+  pinValue: 
+  alternateUrl: 
  
 # MP container tags
 mp:
@@ -37,13 +35,13 @@ mp:
   initVersion: 2.0.0-pkg
   image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_mgmt
   version: 10.1.2-c38
-  cpuLimit: 4
+  cpuLimit: 2
 
 # DP container tags
 dp:
   image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_ngfw
   version: 10.1.2-c38
-  cpuLimit: 2
+  cpuLimit: 1
 
 # CNI container tags
 cni:

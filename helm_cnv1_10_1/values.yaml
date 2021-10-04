@@ -2,24 +2,25 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+
 # The K8s environment 
 # Valid deployTo tags are: [gke|eks|aks|openshift|native]
 cluster:
-  deployTo: 
+  deployTo: eks
+
 
 # Firewall tags
 firewall:
-
   failoverMode: failopen
 
 # Panorama tags
 panorama:
-  ip: 
+  ip: "Panorama_IP" 
   ip2: 
-  authKey: 
-  deviceGroup: 
-  template: 
-  cgName: 
+  authKey: "00000xxxxxxx"
+  deviceGroup: "Panorama-DG"
+  template: "Panorama-TS"
+  cgName: "Panorama-CG"
 
 # Customer Support Portal PIN information
 csp:
@@ -29,21 +30,21 @@ csp:
  
 # MP container tags
 mp:
-  initImage:  docker.io/paloaltonetworks/pan_cn_mgmt_init
-  initVersion: latest
-  image: docker.io/paloaltonetworks/panos_cn_mgmt
-  version: latest
-  cpuLimit: 4
+  initImage: 018147215560.dkr.ecr.us-east-1.amazonaws.com/pan_cn_mgmt_init
+  initVersion: 2.0.0-pkg
+  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_mgmt
+  version: 10.1.2-c38
+  cpuLimit: 2
 
 # DP container tags
 dp:
-  image: docker.io/paloaltonetworks/panos_cn_ngfw
-  version: latest
-  cpuLimit: 2
+  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_ngfw
+  version: 10.1.2-c38
+  cpuLimit: 1
 
 # CNI container tags
 cni:
-  image: docker.io/paloaltonetworks/pan_cni
+  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/skrish-pan-cni
   version: latest
 
 

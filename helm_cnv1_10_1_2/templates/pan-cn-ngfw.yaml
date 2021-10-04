@@ -1,12 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
-  name: pan-ngfw-dep
+  name: pan-ngfw-ds
   namespace: kube-system
   labels:
       app: pan-ngfw
 spec:
-  strategy:
+  updateStrategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
@@ -25,15 +25,15 @@ spec:
           # This needs to be in the list of "firewall" in pan-cni-configmap.yaml
           paloaltonetworks.com/firewall: pan-fw
 
-          # Below annotation is always fixed and is used to detect this Deployment.
+          # Below annotation is always fixed and is used to detect this Daemonset.
           #     paloaltonetworks.com/app: pan-fw
-          #After k8s plugin change, change this to following to avoid confusion:
-          #     paloaltonetworks.com/app: pan-ngfw-app
           paloaltonetworks.com/app: pan-fw
-           
+          {{- if or (eq .Values.cluster.deployTo "openshift") (eq .Values.cluster.multus "enable")  }}
+          
           # If multus CNI is present, this annotation is needed to enable
           # pan-cni CNI plugin for this pod, otherwise no impact.
           k8s.v1.cni.cncf.io/networks: pan-cni
+          {{- end }}
     spec:
       priorityClassName: system-cluster-critical
       # Minimize downtime during a rolling upgrade or deletion; Can tell Kubernetes
@@ -52,7 +52,7 @@ spec:
       containers:
         - name: pan-ngfw-container
           image: "{{ .Values.dp.image }}:{{ .Values.dp.version }}"
-          command: ["/sbin/pan_start","newnns","nspan-fw","eac8617ee91"]
+          command: ["/sbin/pan_pause"]
           lifecycle:
             preStop:
               exec:
@@ -73,22 +73,29 @@ spec:
             failureThreshold: 2
           imagePullPolicy: Always
           securityContext:
-            capabilities:	
+            capabilities:
+            {{- if eq .Values.cluster.deployTo "openshift" }}	
               add: ["ALL"] 
-              #add: ["NET_ADMIN","NET_RAW","NET_BROADCAST","NET_BIND_SERVICE"] 
+            privileged: true	
+            runAsNonRoot: false	
+            {{- else }}	
+              add: ["NET_ADMIN","NET_RAW","NET_BROADCAST","NET_BIND_SERVICE"]
+            {{- end }}
           resources:
             requests:
               # configurable based on desired throughput, number of running pods
               cpu: "1"
-              memory: "4Gi"
+              memory: "2Gi"
             limits:
               cpu: "{{ .Values.dp.cpuLimit }}"
-              memory: "4Gi"
+              memory: "2.25Gi"
           volumeMounts:
           - mountPath: /opt/appinfo
-            name: appinfo	
+            name: appinfo
+          {{- if ne .Values.cluster.deployTo "openshift" }}	
           - mountPath: /opt/pan-cni-ready	
             name: pan-cni-ready	
+          {{- end }}
           - mountPath: /dev/net/tun
             name: devnettun
             readOnly: false
@@ -96,9 +103,6 @@ spec:
             name: dshm
           - mountPath: /etc/pan-fw-sw
             name: sw-secret
-         # Optional for custom cert	
-          - name: pancustomca	
-            mountPath: /etc/custom-ca
           envFrom:
           - configMapRef:
               name: pan-ngfw-config
@@ -161,18 +165,15 @@ spec:
           # "appinfo_dir" configmap and pan-ngfw-ds's part of "pan-cni-ready" volume
           path: /var/log/pan-appinfo
           type: Directory
-      - name: pan-cni-ready	
-        # block pan-ngfw-ds scheduling till PAN CNI plugin insertion on the node
-        hostPath:		
-          path: /var/log/pan-appinfo/pan-cni-ready	
-          type: Directory	
-
+      {{- if ne .Values.cluster.deployTo "openshift" }}	
+      - name: pan-cni-ready
+        hostPath:
+          # block pan-ngfw-ds scheduling till PAN CNI plugin insertion on the node
+          path: /var/log/pan-appinfo/pan-cni-ready
+          type: Directory
+      {{- end }}
       - name: sw-secret
         secret:
           # Don't change this. Needs to match PAN_DP_NAME in pan-cn-mgmt.yaml
           # followed by suffix "-sw". Also hard-coded in ipsec.conf
           secretName: pan-fw-sw
-      - name: pancustomca	
-        secret:
-          secretName: custom-ca-secret	
-          optional: true

@@ -1,17 +1,21 @@
 # CN-Series Helm Chart ⛵⎈ 
 
+
+
 This repository contains charts and templates for deploying the Palo Alto Networks CN-series containerized firewall using the [Helm Package Manager for Kubernetes](https://helm.sh)
+
+This Chart deploys the CN-series as daemon Set. The supported panos versions are 10.1.0 and 10.1.1
 
 ## Minimum requirements
 
 * CN-Series
-  * CN-Series 10.0.0 container images
+  * CN-Series 10.1.0 container images
 * Panorama
-  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.0.0
-  * Kubernetes plugin for Panorama version 1.0.0
+  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.1.0
+  * Kubernetes plugin for Panorama version 2.0.0
   * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.13 - 1.18 cluster
+  * Kubernetes 1.14 - 1.21 cluster
   * A current kubeconfig file
 * Helm
   * [Helm 3](https://helm.sh/docs/intro/install/) client
@@ -46,12 +50,10 @@ $ cd cn-series-helm
 cluster:
   deployTo: gke
 
-# Firewall tags
 # Valid licenceBundle tags are: [basic|bundle1|bundle2]
 firewall:
  operationMode: daemonset
  failoverMode: failopen
- licenseBundle: bundle2
 
 # Panorama tags
 panorama:

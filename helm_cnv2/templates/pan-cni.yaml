@@ -65,16 +65,8 @@ spec:
                 configMapKeyRef:
                   name: pan-cni-config
                   key: cni_network_config
-            {{- if ne .Values.cluster.deployTo "openshift" }}
-            # Name of the primary CNI config file to add our CNI plugin.
-            # This is optional. We always wait until this configured (if
-            # configured) or any cni conf file is detected. If configured
-            # pan-cni will wait until configured CNI conf becomes primary
-            #- name: CNI_CONF_NAME
-            {{- else }}
             # Name of the CNI config file for our CNI plugin.
-            - name: CNI_CONF_NAME
-            {{- end }}
+            #- name: CNI_CONF_NAME
             {{- if eq .Values.cluster.deployTo "gke" }}
             #  value: "10-calico.conflist"
             # 
@@ -83,9 +75,6 @@ spec:
             #
             {{- else if eq .Values.cluster.deployTo "aks" }}
             #  value: "10-azure.conflist"
-            #
-            {{- else if eq .Values.cluster.deployTo "openshift" }}
-              value: "pan-cni.conf"
             {{- end }}
             # Name of the primary CNI config file to add our CNI plugin.
             # This is optional. We always wait until this configured (if
@@ -119,18 +108,12 @@ spec:
           hostPath:
           {{- if eq .Values.cluster.deployTo "gke" }}
             path: /home/kubernetes/bin
-            {{- else if eq .Values.cluster.deployTo "openshift" }}
-            path: /var/lib/cni/bin
-            {{- else }}
+          {{- else }}
             path: /opt/cni/bin
             {{- end }}
         - name: cni-net-dir
           hostPath:
-            {{- if eq .Values.cluster.deployTo "openshift" }}
-            path: /etc/cni/multus/net.d
-            {{- else }}
             path: /etc/cni/net.d
-            {{- end }}
         - name: appinfo
           hostPath:
             # app pod info's directory location on host

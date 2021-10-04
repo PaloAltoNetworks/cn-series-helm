@@ -141,16 +141,9 @@ spec:
             mountPath: /opt/plugins/opt/pancfg/mgmt/plugins/
           - mountPath: /dev/shm
             name: dshm
-            # Optional for custom cert	
-          - name: pancustomca	
-            mountPath: /etc/custom-ca
           envFrom:
           - configMapRef:
               name: pan-mgmt-config
-          # Uncomment the below 3 lines to enable HPA
-          #envFrom:
-          #- configMapRef:
-          #    name: pan-hpa-config
           env:
           - name: MY_POD_UID
             valueFrom:
@@ -181,11 +174,6 @@ spec:
       - name: dshm
         emptyDir:
           medium: Memory
-          # Optional for custom cert - Pass custom CA cert as a secret with file name ca.crt	
-      - name: pancustomca	
-        secret:	
-          secretName: custom-ca-secret	
-          optional: true
   volumeClaimTemplates:
   - metadata:
       name: panlogs
@@ -194,7 +182,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 20Gi #Change this to 200Gi while using storageClassName for better iops
+          storage: 20Gi # change this to 200Gi while using storageClassName for better disk iops
       {{- if eq .Values.cluster.deployTo "native" }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -211,7 +199,7 @@ spec:
       selector:
         matchLabels:
             pv: panlogs
-      {{- end }}    
+      {{- end }}
   - metadata:
       name: varlogpan
     spec:
@@ -219,8 +207,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 20Gi #Change this to 200Gi while using storageClassName for better iops
-      
+          storage: 20Gi # change this to 200Gi while using storageClassName for better disk iops
       {{- if eq .Values.cluster.deployTo "native" }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -261,7 +248,7 @@ spec:
       selector:
         matchLabels:
             pv: panvarcores
-      {{- end }}    
+      {{- end }}
   - metadata:
       name: panplugincfg
     spec:
@@ -285,7 +272,7 @@ spec:
       selector:
         matchLabels:
             pv: panplugincfg
-     {{- end }}    
+     {{- end }} 
   - metadata:
       name: panconfig
     spec:
@@ -309,7 +296,7 @@ spec:
       selector:
         matchLabels:
             pv: panconfig
-     {{- end }}    
+     {{- end }} 
   - metadata:
       name: panplugins
     spec:
@@ -333,4 +320,4 @@ spec:
       selector:
         matchLabels:
             pv: panplugins
-      {{- end }}      
+      {{- end }}   

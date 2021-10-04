@@ -2,6 +2,16 @@
 
 This repository contains charts and templates for deploying the Palo Alto Networks CN-series containerized firewall using the [Helm Package Manager for Kubernetes](https://helm.sh)
 
+The following YAML set are rendered correspondingto the PanOS version.
+
+10.0.0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.0.2<br />
+
+10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.2<br />      
+
+10.1.0/10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.0/2.0.1<br />
+
+
+
 ## Minimum requirements
 
 * CN-Series
@@ -11,10 +21,10 @@ This repository contains charts and templates for deploying the Palo Alto Networ
   * Kubernetes plugin for Panorama version 1.0.x,2.0.x
   * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.13 - 1.20 cluster
+  * Kubernetes 1.16 - 1.21 cluster
   * A current kubeconfig file
 * Helm
-  * [Helm 3](https://helm.sh/docs/intro/install/) client
+  * [Helm 3.6.0](https://helm.sh/docs/intro/install/) client
 
 ## Usage
 
@@ -34,18 +44,22 @@ $ git clone https://github.com/PaloAltoNetworks/cn-series-helm.git
 $ cd cn-series-helm
 ```
 
-Use the directory ```helm_cnv1_sapporo for cnv1 10.0.x as a daemon set, helm_cnv1_seatlle for cnv1 10.1.x as a daemon set and helm_cnv2 for deploying cnv2 as a service```.
+Use the directory ```helm_cnv1_10_0 for cnv1 10.0.x as a daemon set, helm_cnv1_10_1 for cnv1 10.1.0/10.1.1 as a daemon set, helm_cnv1_10_1_2 for cnv1 10.1.2 with/without multus for eks|aks|gke| and helm_cnv2 for deploying cnv2 as a service```.
 
 4. Edit the `values.yaml` file and plug in your specific configs
 
 ```yaml
 # The K8s environment 
 # Valid deployTo tags are: [gke|eks|aks|openshift|native]
+# Valid multus tags are : [enable|disable] Keep the multus as enable for openshift and native deployments.
+# Multus option is valid only for cnv1 10.1.2.
 cluster:
-  deployTo: gke
+  deployTo: eks
+    multus: disable
 
 # Firewall tags
-# Valid licenceBundle tags are: [basic|bundle1|bundle2]
+# Valid licenceBundle tags are: [basic|bundle1|bundle2] Valid only for 10.0.x
+# Valid operationMode tags are: [daemonset|k8-service]    
 firewall:
  operationMode: daemonset
  failoverMode: failopen
@@ -80,6 +94,17 @@ cni:
  version: 1.0.0
  ```
 
+5. To view the rendered YAMLs
+
+```bash
+helm install --debug --generate-name helm_cnv1_10_1/ --dry-run
+```
+
+6. To deploy the helm charts
+
+```bash
+helm install <deployment-name> directory
+```
 
 ### Method 2 - Without Repo 
 
@@ -97,7 +122,7 @@ $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 ```
 $ helm search repo cn-series
 NAME               	CHART VERSION	APP VERSION	DESCRIPTION
-cn-series/cn-series	0.1.2        	9.2.0      	Palo Alto Networks CN-Series firewall Helm char...
+cn-series/cn-series	1.0.0        	10.0.0      	Palo Alto Networks CN-Series firewall Helm char...
 ```
 
 4. Select the Kubernetes cluster
@@ -111,6 +136,7 @@ $ kubectl config set-cluster NAME
 ```bash
 $ helm install cn-series/cn-series --name="deployment name" \
 --set cluster.deployTo="gke|eks|aks|openshift"
+--set cluster.multus="enable|disable"
 --set panorama.ip="panorama hostname or ip" \
 --set panorama.ip2="panorama2 hostname or ip" \
 --set-string panorama.authKey="vm auth key" \

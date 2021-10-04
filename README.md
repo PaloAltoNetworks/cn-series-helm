@@ -4,13 +4,11 @@ This repository contains charts and templates for deploying the Palo Alto Networ
 
 The following YAML set are rendered correspondingto the PanOS version.
 
-10.0.0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.0.2<br />
+10.0.0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.0.2<br />
 
-10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.2<br />      
+10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.2<br />      
 
 10.1.0/10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.0/2.0.1<br />
-
-
 
 ## Minimum requirements
 

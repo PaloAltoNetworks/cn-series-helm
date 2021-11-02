@@ -43,7 +43,7 @@ dp:
   image: <your-private-registry-image-path>
   version: <your-private-registry-image-tag>
   cpuLimit: 1
-  memoryLimit: 2.25i
+  memoryLimit: 2.25Gi
 
 # CNI container tags
 cni:

@@ -5,12 +5,10 @@
 
 
 # The K8s environment 
-# Valid deployTo tags are: [gke|eks|aks||native]
+# Valid deployTo tags are: [gke|eks|aks|native]
 # Openshift will be supported from 10.1.3
 cluster:
-  deployTo: eks 
-
-
+  deployTo: eks
 
 # Firewall tags
 firewall:
@@ -33,23 +31,46 @@ csp:
  
 # MP container tags
 mp:
-  initImage: 018147215560.dkr.ecr.us-east-1.amazonaws.com/pan_cn_mgmt_init
-  initVersion: 2.0.0-pkg
-  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_mgmt
-  version: 10.1.2-c38
-  cpuLimit: 4
+  initImage: <your-private-registry-image-path>
+  initVersion: <your-private-registry-image-tag>
+  image: <your-private-registry-image-path>
+  version: <your-private-registry-image-tag>
+  cpuLimit: 2
+  memoryLimit: 4.0Gi
 
 # DP container tags
 dp:
-  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_ngfw
-  version: 10.1.2-c38
-  cpuLimit: 2
+  image: <your-private-registry-image-path>
+  version: <your-private-registry-image-tag>
+  cpuLimit: 1
+  memoryLimit: 2.25Gi
 
 # CNI container tags
 cni:
-  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/skrish-pan-cni
-  version: latest
+  image: <your-private-registry-image-path>
+  version: <your-private-registry-image-tag>
 
+#############
+# Non Mandatory Parameters
+############
+
+# Override auto-detect of jumbo-frame mode and force enable system-wide
+# Valid tags are true | false
+pan_jumbo_frame_enabled: "false"
+
+# Start MGMT pod with GTP enabled. For complete functionality, need GTP 
+# enable at Panorama as well.
+# Valid tags are true | false
+pan_gtp_enabled: "false"
+  
+# Enable high feature capacities. These need high memory for MGMT pod and
+# higher/matching memory than specified below for NGFW pod.
+pan_ngfw_memory: "2Gi" 
+
+# For enabling faster datapath - AF_XDP, default is AF_PACKETV2.
+# This requires kernel support and NGFW pod running with privileged: true
+# Valid tags are "next-gen"
+pan_data_mode: 
 
 ############
 # Non essential configs

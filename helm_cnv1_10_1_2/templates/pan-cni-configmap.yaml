@@ -42,8 +42,8 @@ data:
           "log_level": "debug",
           "appinfo_dir": "/var/log/pan-appinfo",
           "mode": "daemonset",
-          "firewall": [ "pan-fw" ],
-          "interfaces": ["eth0"],
+          "firewall": [ "pan-fw" ],   
+          "interfaces": {{  .Values.secureInterfaces | toJson  }},
           "interfacesip": [""],
           "interfacesmac": [""],
           "kubernetes": {

@@ -120,6 +120,10 @@ spec:
               name: cni-net-dir
             - mountPath: /host/appinfo
               name: appinfo
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      - name: "{{ .Values.imagePullSecrets }}"
+      {{- end }}
       volumes:
         # Used to install CNI.
         - name: cni-bin-dir

@@ -30,17 +30,25 @@ data:
   # IPSEC_CERT_BYPASS: ""         # No values needed
   {{- end }}
 
+  {{- if .Values.pan_jumbo_frame_enabled }}
   # Override auto-detect of jumbo-frame mode and force enable system-wide
-  #PAN_JUMBO_FRAME_ENABLED: "true"
-  
+  PAN_JUMBO_FRAME_ENABLED: {{ .Values.pan_jumbo_frame_enabled | quote }}
+  {{- end }}  
+
+  {{- if .Values.pan_gtp_enabled }}
   # Start MGMT pod with GTP enabled. For complete functionality, need GTP 
   # enable at Panorama as well.
-  #PAN_GTP_ENABLED: "true"
-  
+  PAN_GTP_ENABLED: {{ .Values.pan_gtp_enabled | quote }}
+  {{- end }}
+
+  {{- if .Values.pan_ngfw_memory }}
   # Enable high feature capacities. These need high memory for MGMT pod and
   # higher/matching memory than specified below for NGFW pod.
-  #PAN_NGFW_MEMORY: "42Gi"
+  PAN_NGFW_MEMORY: {{ .Values.pan_ngfw_memory | quote }}
+  {{- end }}
 
+  {{- if .Values.pan_data_mode }}
   # For enabling faster datapath - AF_XDP, default is AF_PACKETV2.
   # This requires kernel support and NGFW pod running with privileged: true
-  #PAN_DATA_MODE: "next-gen"
+  PAN_DATA_MODE: {{ .Values.pan_data_mode }}
+  {{- end }}

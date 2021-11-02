@@ -119,11 +119,11 @@ spec:
           resources:
             requests:
               # configurable based on desired logging, capacities
-              cpu: "2"
-              memory: "2.0Gi"
+              cpu: "{{ .Values.mp.cpuLimit }}"
+              memory: "{{ .Values.mp.memoryLimit }}"
             limits:
               cpu: "{{ .Values.mp.cpuLimit }}"
-              memory: "4.0Gi"
+              memory: "{{ .Values.mp.memoryLimit }}"
           volumeMounts:
           - name: panlogs
             mountPath: /opt/panlogs/
@@ -169,7 +169,10 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
- 
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      - name: "{{ .Values.imagePullSecrets }}" 
+      {{- end }}
       volumes:
       - name: dshm
         emptyDir:

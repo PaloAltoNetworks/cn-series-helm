@@ -79,11 +79,11 @@ spec:
           resources:
             requests:
               # configurable based on desired throughput, number of running pods
-              cpu: "1"
-              memory: "4Gi"
+              cpu: "{{ .Values.dp.cpuLimit }}"
+              memory: "{{ .Values.dp.memoryLimit }}"
             limits:
               cpu: "{{ .Values.dp.cpuLimit }}"
-              memory: "4Gi"
+              memory: "{{ .Values.dp.memoryLimit }}"
           volumeMounts:
           - mountPath: /opt/appinfo
             name: appinfo	

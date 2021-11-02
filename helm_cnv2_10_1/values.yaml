@@ -33,22 +33,23 @@ csp:
  
 # MP container tags
 mp:
-  initImage: 018147215560.dkr.ecr.us-east-1.amazonaws.com/pan_cn_mgmt_init
-  initVersion: 2.0.0-pkg
-  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_mgmt
-  version: 10.1.2-c38
-  cpuLimit: 4
+  initImage: <your-private-registry-image-path>
+  initVersion: <your-private-registry-image-tag>
+  image: <your-private-registry-image-path>
+  version: <your-private-registry-image-tag>
+  cpuLimit: 2
+  
 
 # DP container tags
 dp:
-  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/panos_cn_ngfw
-  version: 10.1.2-c38
-  cpuLimit: 2
+  image: <your-private-registry-image-path>
+  version: <your-private-registry-image-tag>
+  cpuLimit: 1
 
 # CNI container tags
 cni:
-  image: 018147215560.dkr.ecr.us-east-1.amazonaws.com/skrish-pan-cni
-  version: latest
+  image: <your-private-registry-image-path>
+  version: <your-private-registry-image-tag>
 
 
 ############

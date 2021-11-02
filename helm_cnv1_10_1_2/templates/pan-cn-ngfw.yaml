@@ -84,11 +84,11 @@ spec:
           resources:
             requests:
               # configurable based on desired throughput, number of running pods
-              cpu: "1"
-              memory: "2Gi"
+              cpu: "{{ .Values.dp.cpuLimit }}"
+              memory: "{{ .Values.dp.memoryLimit }}"
             limits:
               cpu: "{{ .Values.dp.cpuLimit }}"
-              memory: "2.25Gi"
+              memory: "{{ .Values.dp.memoryLimit }}"
           volumeMounts:
           - mountPath: /opt/appinfo
             name: appinfo
@@ -151,6 +151,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      - name: "{{ .Values.imagePullSecrets }}"
+      {{- end }}
       volumes:
       - name: devnettun
         hostPath:

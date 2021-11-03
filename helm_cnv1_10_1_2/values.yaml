@@ -79,7 +79,8 @@ secureInterfaces: ["eth0"]
 ############
 # Non essential configs
 ############
-imagePullSecrets: 
+imagePullSecrets: []
+  # - name: myRegistryKeySecretName
 nameOverride: ""
 fullnameOverride: ""
 

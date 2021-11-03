@@ -53,6 +53,7 @@ cni:
 # Non essential configs
 ############
 imagePullSecrets: []
+  # - name: myRegistryKeySecretName
 nameOverride: ""
 fullnameOverride: ""
 

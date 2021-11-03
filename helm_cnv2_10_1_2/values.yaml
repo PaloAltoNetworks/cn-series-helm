@@ -76,6 +76,7 @@ pan_data_mode:
 # Non essential configs
 ############
 imagePullSecrets: []
+  # - name: myRegistryKeySecretName
 nameOverride: ""
 fullnameOverride: ""
 

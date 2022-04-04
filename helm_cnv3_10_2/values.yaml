@@ -1,0 +1,168 @@
+# Default values for cn-series.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+# Supports from PanOS version - 10.2.0
+
+
+# The K8s environment 
+# Valid deployTo tags are: [eks|native|openshift]
+#Valid tags for HA mode are: [true|false]
+cluster:
+  deployTo: eks
+  ha: false
+  ha_0_priority: "100"
+  ha_1_priority: "200"
+
+# Firewall tags
+firewall:
+  failoverMode: failclose
+  operationMode: "k8s-cnf"
+# Panorama tags
+panorama:
+  ip: 
+  #ip2: 
+  authKey: 
+  deviceGroup: 
+  template:  
+  cgName: 
+
+# Customer Support Portal PIN information
+csp:
+  pinId: ""
+  pinValue: :""
+  alternateUrl: :"" 
+ 
+# MP container tags
+mp:
+  initImage: 
+  initVersion: 
+  image: 
+  version: 70
+  cpuLimit: 2
+  memoryLimit: 4.0Gi
+  node_selector_mp0_Key: 
+  node_selector_mp0_value: 
+  node_selector_mp1_Key: 
+  node_selector_mp1_value: 
+
+# DP container tags
+dp:
+  image: 
+  version: 
+  cpuLimit: 
+  memoryLimit: 
+  net_attach_defs_0: 
+  net_attach_defs_1: 
+  node_selector_dp0_key: 
+  node_selector_dp0_value: 
+  node_selector_dp1_key: 
+  node_selector_dp1_value:
+  pan_data_mode: "mmap"
+  hugepage_memory_request: "1024"
+
+# CNI container tags
+#cni:
+#  image: 
+#  version: 
+
+#############
+# Non Mandatory Parameters
+############
+
+# Override auto-detect of jumbo-frame mode and force enable system-wide
+# Valid tags are true | false
+pan_jumbo_frame_enabled: "false"
+
+# Start MGMT pod with GTP enabled. For complete functionality, need GTP 
+# enable at Panorama as well.
+# Valid tags are true | false
+pan_gtp_enabled: "false"
+  
+# Enable high feature capacities. These need high memory for MGMT pod and
+# higher/matching memory than specified below for NGFW pod.
+# 6.5Gi : Maximum 2  DP supported
+  # 42Gi  : Maximum 31 DP supported
+  # 54Gi  : Maximum 47 DP supported
+#pan_ngfw_memory: "6.5Gi" 
+
+# For enabling faster datapath - AF_XDP, default is AF_PACKETV2.
+# This requires kernel support and NGFW pod running with privileged: true
+# Valid tags are "next-gen"
+pan_data_mode: 
+
+## Enable/Disable cpu pinning of the forwarding processes (default physical # cpus) (different from K8S cpu pinning of the pods)
+#Valid tags are true | false
+pan_cpu_pinning_enabled: false
+
+# When doing cpu pinning of forwarding processes, use single NUMA node
+pan_numa_enabled:
+
+# When doing cpu pinning of forwarding processes, use logical cpus as well
+#Valid tags are true | false
+pan_hyperthreading_enabled: true
+
+# When doing cpu pinning of forwarding processes, skip the lower numbered cpus
+# and start from this cpu
+pan_cpu_pinning_base: 1
+
+############
+# Non essential configs
+############
+imagePullSecrets: mypullsecret2
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# service:
+#   type: ClusterIP
+#   port: 80
+
+# ingress:
+#   enabled: false
+#   annotations: {}
+#     # kubernetes.io/ingress.class: nginx
+#     # kubernetes.io/tls-acme: "true"
+#   hosts:
+#     - host: chart-example.local
+#       paths: []
+#   tls: []
+#   #  - secretName: chart-example-tls
+#   #    hosts:
+#   #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

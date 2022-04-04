@@ -42,7 +42,7 @@ $ git clone https://github.com/PaloAltoNetworks/cn-series-helm.git
 $ cd cn-series-helm
 ```
 
-Use the directory ```helm_cnv1_10_0 for cnv1 10.0.x as a daemon set, helm_cnv1_10_1 for cnv1 10.1.0/10.1.1 as a daemon set, helm_cnv1_10_1_2 for cnv1 10.1.2 with/without multus for eks|aks|gke| and helm_cnv2 for deploying cnv2 as a service```.
+Use the directory ```helm_cnv3_10_2 for cnv3 as a cnf, helm_cnv1_10_0 for cnv1 10.0.x as a daemon set, helm_cnv1_10_1 for cnv1 10.1.0/10.1.1 as a daemon set, helm_cnv1_10_1_2 for cnv1 10.1.2 with/without multus for eks|aks|gke| and helm_cnv2 for deploying cnv2 as a service```.
 
 4. Edit the `values.yaml` file and plug in your specific configs
 

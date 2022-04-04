@@ -1,0 +1,30 @@
+{{- if eq .Values.cluster.deployTo "aks" }}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: pan-cn-storage-class
+provisioner: kubernetes.io/azure-disk
+reclaimPolicy: Retain
+parameters:
+  storageaccounttype: Premium_LRS
+  kind: Managed
+{{- else if eq .Values.cluster.deployTo "aws" }}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: pan-cn-storage-class
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: io1
+  fsType: ext4
+{{- else if eq .Values.cluster.deployTo "gke" }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: pan-cn-storage-class
+provisioner: pd.csi.storage.gke.io
+parameters:
+  type: pd-ssd
+{{- end}}  

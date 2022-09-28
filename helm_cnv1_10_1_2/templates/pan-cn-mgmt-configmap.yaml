@@ -52,3 +52,7 @@ data:
   # This requires kernel support and NGFW pod running with privileged: true
   PAN_DATA_MODE: {{ .Values.pan_data_mode }}
   {{- end }}
+  {{- if eq .Values.cluster.deployTo "eks" }}
+  #Certificate signing
+  PAN_CSR_SIGNER_NAME: "beta.eks.amazonaws.com/app-serving"
+  {{- end }}

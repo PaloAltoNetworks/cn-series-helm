@@ -49,6 +49,10 @@ data:
   PAN_DATA_MODE: {{ .Values.pan_data_mode }}
   {{- end }}
 
+  {{- if eq .Values.cluster.deployTo "eks" }}
+  #Certificate signing
+  PAN_CSR_SIGNER_NAME: "beta.eks.amazonaws.com/app-serving"
+  {{- end }}
   #HPA Params
   #PAN_CLOUD: ""
   #HPA_NAME: "<name>" #unique name to identify hpa resource per namespace or per tenant 

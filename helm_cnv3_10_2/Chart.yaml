@@ -1,4 +1,4 @@
-apiVersion: v3
+apiVersion: v2
 name: cn-series
 description: Palo Alto Networks CN-Series firewall Helm chart for Kubernetes
 

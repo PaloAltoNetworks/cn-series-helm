@@ -39,12 +39,13 @@ data:
   {{- if .Values.pan_numa_enabled }}
   # When doing cpu pinning of forwarding processes, use single NUMA node
   PAN_NUMA_ENABLED: {{ .Values.pan_numa_enabled | quote }}
- 
+  {{- end }} 
   {{- if .Values.pan_hyperthreading_enabled }}
   # When doing cpu pinning of forwarding processes, use logical cpus as well
   PAN_HYPERTHREADING_ENABLED: {{ .Values.pan_hyperthreading_enabled | quote }}
-
-  {{-if .Values.pan_cpu_pinning_base }}   
+  {{- end }}
+  {{- if .Values.pan_cpu_pinning_base }}   
   # When doing cpu pinning of forwarding processes, skip the lower numbered cpus
   # and start from this cpu
   PAN_CPU_PINNING_BASE: {{ .Values.pan_cpu_pinning_base | quote }}
+  {{- end }}

@@ -2,27 +2,24 @@
 
 This repository contains charts and templates for deploying the Palo Alto Networks CN-series containerized firewall using the [Helm Package Manager for Kubernetes](https://helm.sh)
 
-The following YAML set are rendered correspondingto the PanOS version.
+The Helm Charts support 10.1.x and 10.2.x PanOS versions. The Helm Charts is based on v3.0 yaml set which can be found at https://github.com/PaloAltoNetworks/Kubernetes/tree/v3.0.3
 
-10.0.0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1.0.2<br />
+The Release Notes and Deployment Guide is at https://docs.paloaltonetworks.com/cn-series/cn-series-firewall-release-notes/cn-series-firewall-release-notes
 
-10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.2<br />      
-
-10.1.0/10.1.2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2.0.0/2.0.1<br />
 
 ## Minimum requirements
 
 * CN-Series
-  * CN-Series 10.x.x container images
+  * CN-Series 10.1.x container images
 * Panorama
-  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.x.x
+  * [Panorama](https://www.paloaltonetworks.com/network-security/panorama) 10.1.x
   * Kubernetes plugin for Panorama version 1.0.x,2.0.x
   * Panorama must be [accessible](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/firewall-administration/reference-port-number-usage/ports-used-for-panorama.html) from the Kubernetes cluster
 * Kubernetes
-  * Kubernetes 1.16 - 1.21 cluster
+  * Kubernetes 1.16 - 1.24 cluster
   * A current kubeconfig file
 * Helm
-  * [Helm 3.6.0](https://helm.sh/docs/intro/install/) client
+  * [Helm 3.6+](https://helm.sh/docs/intro/install/) client
 
 ## Usage
 
@@ -42,26 +39,27 @@ $ git clone https://github.com/PaloAltoNetworks/cn-series-helm.git
 $ cd cn-series-helm
 ```
 
-Use the directory ```helm_cnv3_10_2 for cnv3 as a cnf, helm_cnv1_10_0 for cnv1 10.0.x as a daemon set, helm_cnv1_10_1 for cnv1 10.1.0/10.1.1 as a daemon set, helm_cnv1_10_1_2 for cnv1 10.1.2 with/without multus for eks|aks|gke| and helm_cnv2 for deploying cnv2 as a service```.
+```
+helm_cnv1 are charts that deploy as a daemon set
+helm_cnv2 are charts that deploy as a service
+helm_cnv3 are charts that deploy as a cnf
+```
 
-4. Edit the `values.yaml` file and plug in your specific configs
+
+4. Edit the `values.yaml` file and plug in your specific configs. 
+Make sure to read through the values.yaml to chose the specific deployment tyoe and additional configurations.
+
+Use the public-facing CN-Series repository for images from https://console.cloud.google.com/gcr/images/pan-cn-series/GLOBAL 
+
+Below is an example of `values.yaml` for cnv1
 
 ```yaml
 # The K8s environment 
 # Valid deployTo tags are: [gke|eks|aks|openshift|native]
 # Valid multus tags are : [enable|disable] Keep the multus as enable for openshift and native deployments.
-# Multus option is valid only for cnv1 10.1.2.
 cluster:
   deployTo: eks
-    multus: disable
-
-# Firewall tags
-# Valid licenceBundle tags are: [basic|bundle1|bundle2] Valid only for 10.0.x
-# Valid operationMode tags are: [daemonset|k8-service]    
-firewall:
- operationMode: daemonset
- failoverMode: failopen
- licenseBundle: bundle2
+  multus: disable
 
 # Panorama tags
 panorama:
@@ -74,34 +72,39 @@ panorama:
 
 # MP container tags
 mp:
- initImage:  docker.io/acmewidgets/pan_cn_mgmt_init
- initVersion: 1.0.0
- image: docker.io/acmewidgets/panos_cn_mgmt
- version: 10.0.0
+ initImage: gcr.io/pan-cn-series/pan_cn_mgmt_init
+ initVersion: latest
+ image: gcr.io/pan-cn-series/panos_cn_mgmt
+ version: 10.2.3
  cpuLimit: 4
 
 # DP container tags
 dp:
- image: docker.io/acmewidgets/panos_cn_ngfw
- version: 10.0.0
+ image: gcr.io/pan-cn-series/panos_cn_ngfw
+ version: 10.2.3
  cpuLimit: 2
 
 # CNI container tags
 cni:
- image: docker.io/acmewidgets/pan_cni
- version: 1.0.0
+ image: gcr.io/pan-cn-series/pan_cni
+ version: latest
  ```
 
 5. To view the rendered YAMLs
 
 ```bash
-helm install --debug --generate-name helm_cnv1_10_1/ --dry-run
+helm install --debug --generate-name helm_cnv1/ --dry-run
+```
+Do a lint check on the helm charts
+
+```bash
+helm lint helm_cnv1/
 ```
 
 6. To deploy the helm charts
 
 ```bash
-helm install <deployment-name> directory
+helm install <deployment-name> helm_cnv1
 ```
 
 ### Method 2 - Without Repo 
@@ -120,7 +123,7 @@ $ helm repo add my-project https://paloaltonetworks.github.io/cn-series-helm
 ```
 $ helm search repo cn-series
 NAME               	CHART VERSION	APP VERSION	DESCRIPTION
-cn-series/cn-series	1.0.0        	10.0.0      	Palo Alto Networks CN-Series firewall Helm char...
+cn-series/cn-series	2.0.0        	10.2.0      	Palo Alto Networks CN-Series firewall Helm char...
 ```
 
 4. Select the Kubernetes cluster
@@ -152,21 +155,4 @@ $ helm install cn-series/cn-series --name="deployment name" \
 --set dp.version="container version" \
 --set dp.cpuLimit="cpu max"
 ```
-
-## Support
-
-This template/solution is released under an as-is, best effort, support
-policy. These scripts should be seen as community supported and Palo
-Alto Networks will contribute our expertise as and when possible. We do
-not provide technical support or help in using or troubleshooting the
-components of the project through our normal support options such as
-Palo Alto Networks support teams, or ASC (Authorized Support Centers)
-partners and backline support options. The underlying product used (the
-VM-Series firewall) by the scripts or templates are still supported, but
-the support is only for the product functionality and not for help in
-deploying or using the template or script itself.
-
-Unless explicitly tagged, all projects or work posted in our GitHub
-repository (at <https://github.com/PaloAltoNetworks>) or sites other
-than our official Downloads page on <https://support.paloaltonetworks.com>
-are provided under the best effort policy.
+Add additional parameters to the above command with respect to your desired deployment and configuration.

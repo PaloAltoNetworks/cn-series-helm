@@ -1,0 +1,114 @@
+{{- if and (eq .Values.cluster.hpa "yes") (eq .Values.cluster.deployTo "aks") }}
+#Refer to README for more details on HPA
+#substitute  <HPA_NAME> with unique hpa name provided in pan-cn-mgmt-configmap
+
+{{- if has "dataplanecpuutilizationpct" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: dataplanecpuutilizationpct
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-dataplanecpuutilizationpct"
+{{- end }}    
+
+{{- if has "dataplanepacketbufferutilization" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: dataplanepacketbufferutilization
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-dataplanepacketbufferutilization"
+{{- end }}    
+
+{{- if has "pansessionactive" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: pansessionactive
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-pansessionactive"
+{{- end }}
+
+{{- if has "pansessionutilization" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: pansessionutilization
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-pansessionutilization"
+{{- end }}    
+
+{{- if has "pansessionsslproxyutilization" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: pansessionsslproxyutilization
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-pansessionsslproxyutilization"
+{{- end }}
+
+{{- if has "panthroughput" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: panthroughput
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-panthroughput"
+{{- end }}    
+
+{{- if has "panpacketrate" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: panpacketrate
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-panpacketrate"
+{{- end }}
+
+{{- if has "panconnectionspersecond" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: panconnectionspersecond
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-panconnectionspersecond"
+{{- end }}
+
+{{- if has "panloggingrate" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: panloggingrate
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-panloggingrate"
+{{- end }}    
+
+{{- if has "pandataplaneslots" .Values.custom_metrics }}
+apiVersion: azure.com/v1alpha2
+kind: CustomMetric
+metadata:
+  name: pandataplaneslots
+  namespace: kube-system
+spec:
+  metric:
+    metricName: "customMetrics/{{ .Values.hpa_name }}-pandataplaneslots"
+{{- end }}    
+{{- end }}

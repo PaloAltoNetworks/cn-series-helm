@@ -1,0 +1,220 @@
+# Default values for cn-series deployment as a service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+##############################
+# Mandatory Parameters
+##############################
+
+# The K8s environment 
+# Valid deployTo tags are: [gke|eks|aks|openshift|native]
+# Valid HPA (Horizontal Pod Scaling) tags are : [yes|no]
+# Valid tags for volumes for native deployment are : [static|dynamic]
+cluster:
+  deployTo: gke
+  hpa: "no"
+  volumes: static
+
+# Firewall tags
+firewall:
+  failoverMode: failopen
+  operationMode: "k8s-service"
+# Panorama tags
+panorama:
+  ip: "<Panorama-IP>" 
+  ip2: 
+  authKey: "<Panorama-auth-key>"
+  deviceGroup: "<Panorama-device-group>"
+  template: "<panorama-template-stack>" 
+  cgName: "<panorama-collector-group>"
+
+# Customer Support Portal PIN information
+csp:
+  pinId: ""
+  pinValue: ""
+  alternateUrl: "" 
+
+mp:
+  initImage: gcr.io/pan-cn-series/pan_cn_mgmt_init
+  initVersion: preferred
+  image: gcr.io/pan-cn-series/panos_cn_mgmt
+  version: preferred-10.2
+  cpuLimit: 4
+  memoryLimit: 4.0Gi
+
+# DP container tags
+dp:
+  image: gcr.io/pan-cn-series/panos_cn_ngfw
+  version: preferred-10.2
+  cpuLimit: 1
+  memoryLimit: 4.0Gi
+
+# CNI container tags
+cni:
+  image: gcr.io/pan-cn-series/pan_cni
+  version: preferred
+ 
+#Max 2 replicas supported.
+min_replicas: 2
+max_replicas: 2
+
+##############################
+# Non Mandatory Parameters
+##############################
+
+# Override auto-detect of jumbo-frame mode and force enable system-wide
+# Valid tags are true | false
+pan_jumbo_frame_enabled: "false"
+
+# Start MGMT pod with GTP enabled. For complete functionality, need GTP 
+# enable at Panorama as well.
+# Valid tags are true | false
+pan_gtp_enabled: "false"
+  
+# Enable high feature capacities. These need high memory for MGMT pod and
+# higher/matching memory than specified below for NGFW pod.
+pan_ngfw_memory: "2Gi" 
+
+# For enabling faster datapath - AF_XDP, default is AF_PACKETV2.
+# This requires kernel support and NGFW pod running with privileged: true
+# Valid tags are "next-gen"
+pan_data_mode: 
+
+#Interfaces
+#Update the list of interfaces that you would like to secure. By Default it is "eth0"
+secureInterfaces: ["eth0"]
+
+##############################################
+#HPA (Horizontal Pod Scaling) Parameters
+##############################################
+
+#PAN_CLOUD: ""
+hpa_name: "<name>" #unique name to identify hpa resource per namespace or per tenant 
+#PAN_INSTRUMENTATION_KEY: "<>" #Azure APP Insight Instrumentation Key
+#PUSH_INTERVAL: "15" #time interval to publish metrics to azure app insight
+
+##########################################
+#HPA parameters for EKS deployment
+##########################################
+pan_namespace_eks: "<namespace>"
+
+##########################################
+#HPA parameters for AKS deployment
+##########################################
+#Create a Service Principle  before populating the below values.
+# az ad sp create-for-rbac -n "<name of service principal>" --role "Monitoring Reader" --scopes /subscriptions/<sub-id>/resourceGroups/<resource-group-name>
+#{
+#  "appId": "be00cda9-7677-4964-adff-xxxxx", — azure-client-id
+#  "displayName": "janedoe",
+#  "name": "http://janedoe",
+#  "password": "85291172-1766-4efb-8209-xxxxx", - azure-client-secret
+#  "tenant": "66b66353-3b76-4e41-9dc3-xxxxxx" - azure-tenant-id
+#}
+
+appinsights_appid: #"<Azure App Insight Application ID obtained from API Access>"
+appinsights_key: #"<Azure App Insight API Key created under API Access>"
+azure_client_id: #"<Azure SP APP ID associated with corresponding resource group with monitoring reader access>"
+azure_client_secret: #"<Azure SP Password associated with corresponding resource group with monitoring reader access>"
+azure_tenant_id: #"<Azure SP tenant ID associated with corresponding resource group with monitoring reader access>"
+
+
+##########################################
+#HPA parameters for GKE deployment
+##########################################
+
+user_name: #"<janedoe@paloaltonetworks.com>" provide user output obtained from command gcloud config get-value account
+
+################################################################
+#Custom metrics definition for HPA deployments - AKS, EKS, GKE
+################################################################
+
+#The below list has all the metrics defined. Chose the custom metric by removing it from the below list
+
+custom_metrics:
+  - dataplanecpuutilizationpct
+  - dataplanepacketbufferutilization
+  - pansessionactive
+  - pansessionutilization
+  - pansessionsslproxyutilization
+  - panthroughput
+  - panpacketrate
+  - panconnectionspersecond
+  - panloggingrate
+  - pandataplaneslots
+
+eks_dataplanecpuutilizationpct_target_value: 100
+eks_panloggingrate_target_value: 100
+aks_panloggingrate_target_value: 30
+aks_pansessionactive_average_value: 30
+gke_panloggingrate_target_value: 25
+gke_pandataplaneslots_target_value: 25
+gke_dataplanecpuutilizationpct_target_value: 25
+gke_dataplanepacketbufferutilization_target_value: 25
+gke_pansessionactive_target_value: 25
+gke_pansessionutilization_target_value: 25
+gke_pansessionsslproxyutilization_target_value: 25
+gke_panthroughput_target_value: 25
+gke_panpacketrate_target_value: 25
+gke_panconnectionspersecond_target_value: 25
+
+############
+# Non essential configs
+############
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# service:
+#   type: ClusterIP
+#   port: 80
+
+# ingress:
+#   enabled: false
+#   annotations: {}
+#     # kubernetes.io/ingress.class: nginx
+#     # kubernetes.io/tls-acme: "true"
+#   hosts:
+#     - host: chart-example.local
+#       paths: []
+#   tls: []
+#   #  - secretName: chart-example-tls
+#   #    hosts:
+#   #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

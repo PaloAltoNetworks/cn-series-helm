@@ -1,4 +1,3 @@
-{{- if not (eq .Values.cluster.deployTo "native") }}
 # This manifest installs the pan install-cni container, as well
 # as the pan CNI plugin and config on
 # each master and worker node in a Kubernetes cluster.
@@ -121,4 +120,3 @@ spec:
             # pan-ngfw-ds's "appinfo" and part of "pan-cni-ready" volumes
             path: /var/log/pan-appinfo
             type: DirectoryOrCreate
-{{- end -}}

@@ -11,13 +11,13 @@
 # Valid multus tags are : [enable|disable] Keep the multus as enable for openshift and native deployments.
 # Valid tags for volumes for native deployment are : [static|dynamic]
 cluster:
-  deployTo: eks
-  multus: disable
-  volumes: static
+  deployTo: "eks"
+  multus: "disable"
+  volumes: "static"
 
 # Firewall tags
 firewall:
-  failoverMode: failopen
+  failoverMode: "failopen"
 
 # Panorama tags
 panorama:
@@ -30,9 +30,9 @@ panorama:
 
 # Customer Support Portal PIN information
 csp:
-  pinId: 
-  pinValue: 
-  alternateUrl: 
+  pinId: ""
+  pinValue: "" 
+  alternateUrl: "" 
  
 # MP container tags
 mp:

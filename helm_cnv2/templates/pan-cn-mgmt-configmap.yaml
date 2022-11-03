@@ -8,7 +8,7 @@ data:
   PAN_MGMT_SECRET: pan-mgmt-secret
 
   # Panorama settings
-  PAN_PANORAMA_IP: {{ required "A value must be provided for .Values.panorama.ip" .Values.panorama.ip }}
+  PAN_PANORAMA_IP: {{ required "A value must be provided for .Values.panorama.ip" .Values.panorama.ip | quote }}
   {{- if .Values.panorama.ip2 | quote }}
   PAN_PANORAMA_IP2: {{ .Values.panorama.ip2 | quote }}
   {{- end }}
@@ -46,7 +46,7 @@ data:
   {{- if .Values.pan_data_mode }}
   # For enabling faster datapath - AF_XDP, default is AF_PACKETV2.
   # This requires kernel support and NGFW pod running with privileged: true
-  PAN_DATA_MODE: {{ .Values.pan_data_mode }}
+  PAN_DATA_MODE: {{ .Values.pan_data_mode | quote }}
   {{- end }}
 
   #HPA Params

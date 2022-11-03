@@ -12,8 +12,8 @@
 # Valid tags for HA mode are: [true|false]
 # Valid tags for volumes for native deployment are : [static|dynamic]
 cluster:
-  deployTo: eks
-  ha: false
+  deployTo: "eks"
+  ha: "false"
   ha_0_priority: "100"
   ha_1_priority: "200"
   volumes: static

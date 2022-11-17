@@ -79,6 +79,20 @@ cni:
  version: 1.0.0
  ```
 
+5. Deploy the local chart.
+
+ ```
+ cd ..
+ helm install cn-series ./cn-series-helm
+ ```
+
+6. Extract the pan-plugin-user service account json file for import into Panorama.
+
+```
+MY_TOKEN=`kubectl get serviceaccounts pan-plugin-user -n kube-system -o jsonpath='{.secrets[0].name}'`
+
+kubectl get secret $MY_TOKEN -n kube-system -o json > plugin-svc-acct.json
+```
 
 ### Method 2 - Without Repo 
 
@@ -126,6 +140,14 @@ $ helm install cn-series/cn-series --name="deployment name" \
 --set dp.image="container repo" \
 --set dp.version="container version" \
 --set dp.cpuLimit="cpu max"
+```
+
+6. Extract the pan-plugin-user service account json file for import into Panorama.
+
+```
+MY_TOKEN=`kubectl get serviceaccounts pan-plugin-user -n kube-system -o jsonpath='{.secrets[0].name}'`
+
+kubectl get secret $MY_TOKEN -n kube-system -o json > plugin-svc-acct.json
 ```
 
 ## Support

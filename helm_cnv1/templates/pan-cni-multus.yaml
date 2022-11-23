@@ -40,7 +40,7 @@ spec:
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       hostNetwork: true
       tolerations:
         # Make sure pan-cni gets scheduled on all nodes.
@@ -60,7 +60,7 @@ spec:
         # This container installs the pan CNI binaries
         # and CNI network config file on each node.
         - name: install-pan-cni
-          image: <your-private-registry-image-path>
+          image: "{{ .Values.cni.image }}:{{ .Values.cni.version }}"
           imagePullPolicy: Always
           command: ["/install-pan-cni.sh", "main"]
           lifecycle:

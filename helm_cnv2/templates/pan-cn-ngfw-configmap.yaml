@@ -10,6 +10,11 @@ data:
   PAN_CTNR_MODE_TYPE: "k8s-service"
   
   # Comment out to use CERTs otherwise PSK for IPSec between pan-mgmt and pan-ngfw
+  {{- if eq .Values.cluster.deployTo "openshift" }}
+  # Not using CERTs currently in openshift
+  IPSEC_CERT_BYPASS: ""             # No values needed
+  {{- else }}
   #IPSEC_CERT_BYPASS: ""            # No values needed
-  
+  {{- end }}
+
   #IPSEC_NAT_PORT_RANGE: "4500-4500"    # port range to avoid stale connections

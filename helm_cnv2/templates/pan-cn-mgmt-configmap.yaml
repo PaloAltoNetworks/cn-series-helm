@@ -22,9 +22,14 @@ data:
   #CLUSTER_NAME: "<Cluster name>"
 
   #PAN_PANORAMA_IP2: ""
-  # Comment out to use CERTs otherwise PSK for IPSec between pan-mgmt and pan-ngfw
   
+  # Comment out to use CERTs otherwise PSK for IPSec between pan-mgmt and pan-ngfw
+  {{- if eq .Values.cluster.deployTo "openshift" }}
+  # Not using CERTs currently in openshift
+  IPSEC_CERT_BYPASS: ""         # No values needed
+  {{- else }}
   # IPSEC_CERT_BYPASS: ""         # No values needed
+  {{- end }}
   
   {{- if .Values.pan_jumbo_frame_enabled }}
   # Override auto-detect of jumbo-frame mode and force enable system-wide

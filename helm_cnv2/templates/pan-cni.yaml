@@ -1,3 +1,13 @@
+{{- if eq .Values.cluster.deployTo "openshift" }}
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: pan-cni
+  # Defining it in kube-system for pan-ngfw-ds. 
+  # Do this for each namespace where app pod can be run
+  namespace: kube-system      
+---     
+{{- end }}
 # This manifest installs the pan install-cni container, as well
 # as the pan CNI plugin and config on
 # each master and worker node in a Kubernetes cluster.
@@ -64,24 +74,18 @@ spec:
                 configMapKeyRef:
                   name: pan-cni-config
                   key: cni_network_config
+            {{- if eq .Values.cluster.deployTo "openshift" }}
             # Name of the CNI config file for our CNI plugin.
-            #- name: CNI_CONF_NAME
-            {{- if eq .Values.cluster.deployTo "gke" }}
-            #  value: "10-calico.conflist"
-            # 
-            {{- else if eq .Values.cluster.deployTo "eks" }}
-            #  value: "10-aws.conflist"
-            #
-            {{- else if eq .Values.cluster.deployTo "aks" }}
-            #  value: "10-azure.conflist"
+            - name: CNI_CONF_NAME
+              value: "pan-cni.conf"
+            # Name of the directory for CNI config file for our CNI plugin.
+            - name: CNI_NET_DIR
+              value: "/etc/cni/multus/net.d"
+            # Whether to deploy the configuration file as a plugin chain or as
+            # a standalone file (for multus) in cni-conf-dir
+            - name: CHAINED_CNI_PLUGIN
+              value: "false"
             {{- end }}
-            # Name of the primary CNI config file to add our CNI plugin.
-            # This is optional. We always wait until this configured (if
-            # configured) or any cni conf file is detected. If configured
-            # pan-cni will wait until configured CNI conf becomes primary
-            #- name: CNI_CONF_NAME
-            #  value: "10-azure.conflist"
-            #
             # This is optional. After pan-cni insertion, delay for it to be
             # picked up/propogated before makring pan-cni-ready (default 30 seconds)
             #- name: CNI_READY_DELAY
@@ -107,12 +111,18 @@ spec:
           hostPath:
           {{- if eq .Values.cluster.deployTo "gke" }}
             path: /home/kubernetes/bin
+          {{- else if eq .Values.cluster.deployTo "openshift" }}
+            path: /var/lib/cni/bin
           {{- else }}
             path: /opt/cni/bin
             {{- end }}
         - name: cni-net-dir
           hostPath:
+            {{- if eq .Values.cluster.deployTo "openshift" }}
+            path: /etc/cni/multus/net.d
+            {{- else }}
             path: /etc/cni/net.d
+            {{- end }}
         - name: appinfo
           hostPath:
             # app pod info's directory location on host

@@ -14,7 +14,7 @@ spec:
     matchLabels:
       app: pan-ngfw
    # min replicas set to 2
-  replicas: {{ .Values.min_replicas }}   
+  replicas: {{ .Values.dp.min_replicas }}   
   template:
     metadata:
       labels:

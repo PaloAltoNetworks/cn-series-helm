@@ -43,6 +43,8 @@ mp:
   version: preferred-10.2
   cpuLimit: 4
   memoryLimit: 4.0Gi
+  max_replicas: 2
+
 
 # DP container tags
 dp:
@@ -50,15 +52,13 @@ dp:
   version: preferred-10.2
   cpuLimit: 1
   memoryLimit: 4.0Gi
+  min_replicas: 2
 
 # CNI container tags
 cni:
   image: gcr.io/pan-cn-series/pan_cni
   version: preferred
  
-#Max 2 replicas supported.
-min_replicas: 2
-max_replicas: 2
 
 ##############################
 # Non Mandatory Parameters

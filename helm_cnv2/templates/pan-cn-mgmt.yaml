@@ -24,7 +24,7 @@ spec:
       appname: pan-mgmt-sts
   serviceName: pan-mgmt-svc
   # Replicas are for fault-tolerance. Max 2 replicas supported.
-  replicas: {{ .Values.max_replicas }}
+  replicas: {{ .Values.dp.max_replicas }}
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel

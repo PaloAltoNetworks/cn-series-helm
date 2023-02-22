@@ -199,11 +199,13 @@ spec:
   - metadata:
       name: panlogs
     spec:
-      #storageClassName: pan-cn-storage-class //For better disk iops performance for logging
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
           storage: 20Gi #Change this to 200Gi while using storageClassName for better iops
+      {{- if and (eq .Values.cluster.volumes "dynamic") ( .Values.mp.storageClassName) }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}    
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -220,16 +222,17 @@ spec:
       selector:
         matchLabels:
             pv: panlogs
-      {{- end }}    
+      {{- end }}
   - metadata:
       name: varlogpan
     spec:
-      #storageClassName: pan-cn-storage-class //For better disk iops performance for dp logs
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
           storage: 20Gi #Change this to 200Gi while using storageClassName for better iops
-      
+      {{- if and (eq .Values.cluster.volumes "dynamic") ( .Values.mp.storageClassName) }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -246,7 +249,7 @@ spec:
       selector:
         matchLabels:
             pv: panvarlog
-      {{- end }}    
+      {{- end }}
   - metadata:
       name: varcores
     spec:
@@ -254,6 +257,9 @@ spec:
       resources:
         requests:
           storage: 2Gi
+      {{- if and (eq .Values.cluster.volumes "dynamic") ( .Values.mp.storageClassName) }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -270,7 +276,7 @@ spec:
       selector:
         matchLabels:
             pv: panvarcores
-      {{- end }}    
+      {{- end }}
   - metadata:
       name: panplugincfg
     spec:
@@ -278,6 +284,9 @@ spec:
       resources:
         requests:
           storage: 1Gi
+      {{- if and (eq .Values.cluster.volumes "dynamic") ( .Values.mp.storageClassName) }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -294,7 +303,7 @@ spec:
       selector:
         matchLabels:
             pv: panplugincfg
-     {{- end }}    
+     {{- end }}
   - metadata:
       name: panconfig
     spec:
@@ -302,6 +311,9 @@ spec:
       resources:
         requests:
           storage: 8Gi
+      {{- if and (eq .Values.cluster.volumes "dynamic") ( .Values.mp.storageClassName) }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -318,7 +330,7 @@ spec:
       selector:
         matchLabels:
             pv: panconfig
-     {{- end }}    
+     {{- end }}
   - metadata:
       name: panplugins
     spec:
@@ -326,6 +338,9 @@ spec:
       resources:
         requests:
           storage: 200Mi
+      {{- if and (eq .Values.cluster.volumes "dynamic") ( .Values.mp.storageClassName) }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -342,4 +357,4 @@ spec:
       selector:
         matchLabels:
             pv: panplugins
-      {{- end }}      
+      {{- end }}

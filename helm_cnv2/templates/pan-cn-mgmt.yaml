@@ -199,7 +199,6 @@ spec:
   - metadata:
       name: panlogs
     spec:
-      #storageClassName: pan-cn-storage-class //For better disk iops performance for logging
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
@@ -220,16 +219,16 @@ spec:
       selector:
         matchLabels:
             pv: panlogs
-      {{- end }}    
+      {{- else if .Values.mp.storageClassName }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
   - metadata:
       name: varlogpan
     spec:
-      #storageClassName: pan-cn-storage-class //For better disk iops performance for dp logs
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
           storage: 20Gi #Change this to 200Gi while using storageClassName for better iops
-      
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -246,7 +245,9 @@ spec:
       selector:
         matchLabels:
             pv: panvarlog
-      {{- end }}    
+      {{- else if .Values.mp.storageClassName }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
   - metadata:
       name: varcores
     spec:
@@ -270,7 +271,9 @@ spec:
       selector:
         matchLabels:
             pv: panvarcores
-      {{- end }}    
+      {{- else if .Values.mp.storageClassName }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
   - metadata:
       name: panplugincfg
     spec:
@@ -294,7 +297,9 @@ spec:
       selector:
         matchLabels:
             pv: panplugincfg
-     {{- end }}    
+      {{- else if .Values.mp.storageClassName }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
   - metadata:
       name: panconfig
     spec:
@@ -318,7 +323,9 @@ spec:
       selector:
         matchLabels:
             pv: panconfig
-     {{- end }}    
+      {{- else if .Values.mp.storageClassName }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}
   - metadata:
       name: panplugins
     spec:
@@ -342,4 +349,6 @@ spec:
       selector:
         matchLabels:
             pv: panplugins
-      {{- end }}      
+      {{- else if .Values.mp.storageClassName }}
+      storageClassName: {{ .Values.mp.storageClassName }}
+      {{- end }}

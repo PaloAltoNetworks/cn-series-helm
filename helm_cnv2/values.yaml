@@ -44,7 +44,7 @@ mp:
   cpuLimit: 4
   memoryLimit: 4.0Gi
   max_replicas: 2
-
+  storageClassName: ""
 
 # DP container tags
 dp:

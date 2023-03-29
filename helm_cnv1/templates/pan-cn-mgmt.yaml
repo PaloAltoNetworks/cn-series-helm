@@ -36,9 +36,9 @@ spec:
       annotations:
           paloaltonetworks.com/app: pan-mgmt
     spec:
-    {{- if .Values.nodeSelector }}
-    nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
-    {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
       serviceAccountName: pan-mgmt-sa
       priorityClassName: system-node-critical
       #terminationGracePeriodSeconds: 60 //for graceful exit of prestop hook

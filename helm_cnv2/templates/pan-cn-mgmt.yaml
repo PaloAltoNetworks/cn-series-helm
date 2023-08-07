@@ -254,7 +254,11 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
+          {{- if eq .Values.cluster.deployTo "ack" }}
+          storage: 20Gi
+          {{- else }}
           storage: 2Gi
+          {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -280,7 +284,11 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
+          {{- if eq .Values.cluster.deployTo "ack" }}
+          storage: 20Gi
+          {{- else }}
           storage: 1Gi
+          {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -306,7 +314,11 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
+          {{- if eq .Values.cluster.deployTo "ack" }}
+          storage: 20Gi
+          {{- else }}
           storage: 8Gi
+          {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.
@@ -332,7 +344,11 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
+          {{- if eq .Values.cluster.deployTo "ack" }}
+          storage: 20Gi
+          {{- else }}
           storage: 200Mi
+          {{- end }}
       {{- if and (eq .Values.cluster.volumes "static") (eq .Values.cluster.deployTo "native") }}
       # Note: Use of dynamically provisioned PVs is strongly recommend.
       # Disable storageClassName to use dynamically provisioned PVs.

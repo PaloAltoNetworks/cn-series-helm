@@ -44,7 +44,7 @@ data:
   #        }
   cni_network_config: |-
         { 
-          {{- if or (eq .Values.cluster.deployTo "gke") (eq .Values.cluster.deployTo "openshift") (eq .Values.cluster.deployTo "native") }}
+          {{- if or (eq .Values.cluster.deployTo "gke") (eq .Values.cluster.deployTo "openshift") (eq .Values.cluster.deployTo "native") (eq .Values.cluster.deployTo "ack")}}
           "cniVersion": "0.3.0",
           {{- end }}
           "name": "pan-cni",
@@ -68,12 +68,12 @@ data:
           "interfacesmac": [""],
           "kubernetes": {
               "kubeconfig": "__KUBECONFIG_FILEPATH__",
-              {{- if or (eq .Values.cluster.deployTo "eks") (eq .Values.cluster.deployTo "aks") (eq .Values.cluster.deployTo "native") }}
-              "cni_bin_dir": "/opt/cni/bin",
-              {{- else if eq .Values.cluster.deployTo "gke" }}
+              {{- if eq .Values.cluster.deployTo "gke" }}
               "cni_bin_dir": "/home/kubernetes/bin",
               {{- else if eq .Values.cluster.deployTo "openshift" }}
               "cni_bin_dir": "/var/lib/cni/bin",
+              {{- else }}
+              "cni_bin_dir": "/opt/cni/bin",
               {{- end }}
               "exclude_namespaces": [ ],
               "security_namespaces": [ "kube-system"]

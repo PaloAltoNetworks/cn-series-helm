@@ -32,11 +32,10 @@ spec:
           #After k8s plugin change, change this to following to avoid confusion:
           #     paloaltonetworks.com/app: pan-ngfw-app
           paloaltonetworks.com/app: pan-fw
-          {{- if eq .Values.cluster.deployTo "openshift" }}           
           # If multus CNI is present, this annotation is needed to enable
           # pan-cni CNI plugin for this pod, otherwise no impact.
           k8s.v1.cni.cncf.io/networks: pan-cni
-          {{- end }}
+          
     spec:
       {{- if .Values.nodeSelector }}
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
